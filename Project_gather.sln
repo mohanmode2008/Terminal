@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project_gather", "Project_gather.vcxproj", "{2D1FDD7C-22E5-49B0-986D-79DC7779968A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D1FDD7C-22E5-49B0-986D-79DC7779968A}.Debug|x64.ActiveCfg = Debug|x64
+		{2D1FDD7C-22E5-49B0-986D-79DC7779968A}.Debug|x64.Build.0 = Debug|x64
+		{2D1FDD7C-22E5-49B0-986D-79DC7779968A}.Release|x64.ActiveCfg = Release|x64
+		{2D1FDD7C-22E5-49B0-986D-79DC7779968A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B3011B3-59C4-4522-9E6B-1EA5563514A2}
+	EndGlobalSection
+EndGlobal
