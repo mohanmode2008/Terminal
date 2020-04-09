@@ -18,22 +18,34 @@ public:
 	QtLogin(QWidget *parent = Q_NULLPTR);
 	~QtLogin();
 
+	QString get_id_token();
+
 private:
 	Ui::QtLogin ui;
 
-	QTRegister* Register1;
-	QtWorkparameter* Workparameter;
+	QNetworkRequest netReq;
+	QNetworkAccessManager* networkAccessManager_post_login;
+
+	QString  id_token;
+
+	QNetworkReply* reply;
+
+	QNetworkAccessManager manager_get_logout;
+
+	QFile* file;
 
 private slots:
-	void on_btn_returnstatus_clicked();
-	void on_btn_register_clicked();
-	void on_btn_login_send_clicked();
-	void btn_quit();
-	void btn_taskset_clicked();
+	void btn_post_login();
+	void finished_post_login(QNetworkReply*);
 
+	void btn_return_status();
+	void btn_to_register();
 
-public:
-	QTcpSocket* socket;
+	void btn_post_logout();
+	void finished_post_logout();
+
+	void btn_to_quit();
+	void btn_to_Workparameter();
 };
 
 

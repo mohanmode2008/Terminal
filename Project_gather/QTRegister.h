@@ -6,6 +6,9 @@
 #include <QTcpSocket>
 #include <QString>
 
+#include <QtNetwork>
+#include "QtLogin.h"
+
 class QTRegister : public QWidget
 {
 	Q_OBJECT
@@ -18,14 +21,29 @@ private:
 	Ui::QTRegister ui;
 	QTRegister* register1;
 
+	QNetworkRequest netReq;
+	QNetworkAccessManager* networkAccessManager_post_register;
+	QNetworkAccessManager* networkAccessManager_post_code;
+	QNetworkAccessManager* networkAccessManager_post_edit;
 
-private slots:
-	void on_btn_switchlogin_clicked();
-	void on_btnRegister_clicked();
+	qint8 return_post_state;
+
+	QFile *file;// ("D:/VS_QT/project_gather/operation_record.txt");
+
+public slots:
+	void btn_post_register();
+	void finished_post_register(QNetworkReply*);
+	int btn_post_getcode();
+	void finished_post_getcode(QNetworkReply*);
+
+	//void turn_verification();
+	void btn_to_login();
+
+	int btn_post_edit();
+	void finished_post_edit(QNetworkReply*);
 	void btn_quit();
 
-
-public:
-	QTcpSocket* socket;
-
+	void on_pushButton_2_clicked();
 };
+
+

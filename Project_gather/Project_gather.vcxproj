@@ -87,6 +87,7 @@
     <ClCompile Include="QtLogin.cpp" />
     <ClCompile Include="QtRealtimeimage.cpp" />
     <ClCompile Include="QTRegister.cpp" />
+    <ClCompile Include="Qttimedimage.cpp" />
     <ClCompile Include="QtWorkparameter.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +99,7 @@
     <QtUic Include="QtLogin.ui" />
     <QtUic Include="QtRealtimeimage.ui" />
     <QtUic Include="QTRegister.ui" />
+    <QtUic Include="Qttimedimage.ui" />
     <QtUic Include="QtWorkparameter.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QtCommandtest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Qttimedimage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

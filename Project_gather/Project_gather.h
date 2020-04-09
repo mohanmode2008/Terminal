@@ -11,7 +11,7 @@
 #include <QByteArray>
 
 
-#include "QTRegister.h"
+//#include "QTRegister.h"
 #include "QTLogin.h"
 
 

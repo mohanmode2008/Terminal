@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>QtWorkparameter</string>
   </property>
-  <widget class="QPushButton" name="btn_return_to_state">
+  <widget class="QPushButton" name="btn_to_state">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -509,7 +509,7 @@
       <string>日期选择</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="btn_taskinput">
+    <widget class="QPushButton" name="btn_to_task_plan">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -535,7 +535,7 @@
     <property name="title">
      <string>成像选择</string>
     </property>
-    <widget class="QPushButton" name="btn_applyauthorizationcode">
+    <widget class="QPushButton" name="btn_apply_author_code">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -621,7 +621,7 @@
       </property>
      </item>
     </widget>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="btn_to_timed_image">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -680,7 +680,7 @@
       <string>成像时间</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="btn_to_realtime_image">
      <property name="geometry">
       <rect>
        <x>210</x>
@@ -751,7 +751,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>btn_return_to_state</sender>
+   <sender>btn_to_state</sender>
    <signal>clicked()</signal>
    <receiver>QtWorkparameter</receiver>
    <slot>on_btn_return_to_state_clicked()</slot>

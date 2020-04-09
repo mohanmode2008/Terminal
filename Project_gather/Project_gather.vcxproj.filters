@@ -37,13 +37,16 @@
     <ClCompile Include="QtLogin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QtWorkparameter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="QtRealtimeimage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QtCommandtest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QtWorkparameter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Qttimedimage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -57,13 +60,16 @@
     <QtMoc Include="QtLogin.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="QtWorkparameter.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="QtRealtimeimage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="QtCommandtest.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QtWorkparameter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="Qttimedimage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -77,13 +83,16 @@
     <QtUic Include="QtLogin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="QtWorkparameter.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="QtRealtimeimage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="QtCommandtest.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="QtWorkparameter.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Qttimedimage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
