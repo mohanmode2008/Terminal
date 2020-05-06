@@ -3,6 +3,7 @@
 #include<Windows.h>
 #include <QboxLayout.h>
 #include "QtCommandtest.h"
+#include "QtAnt.h"
 
 Project_gather::Project_gather(QWidget* parent)
 	: QMainWindow(parent)
@@ -68,10 +69,17 @@ void Project_gather::btn_quit()
 	this->close();
 }
 
-void Project_gather::btn_first_clicked()
+void Project_gather::btn_cmdtest()
 {
 	QtCommandtest* Project_login = new QtCommandtest;
 	Project_login->show();
 	this->hide();
 }
 
+
+void Project_gather::btn_to_ant()
+{
+	QtAnt* Project_qtant = new QtAnt;
+	Project_qtant->show();
+	this->hide();
+}

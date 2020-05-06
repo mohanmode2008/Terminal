@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1462</width>
-    <height>895</height>
+    <height>878</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -347,26 +347,23 @@
     </rect>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_to_tcp">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>770</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TCP连接</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections>
-  <connection>
-   <sender>btn_test</sender>
-   <signal>clicked()</signal>
-   <receiver>QtCommandtest</receiver>
-   <slot>btn_first_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>55</x>
-     <y>378</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>46</x>
-     <y>399</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>btn_clr_cmd</sender>
    <signal>clicked()</signal>
@@ -383,9 +380,43 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>btn_to_tcp</sender>
+   <signal>clicked()</signal>
+   <receiver>QtCommandtest</receiver>
+   <slot>btn_to_connect_tcp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>660</x>
+     <y>782</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>643</x>
+     <y>802</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_test</sender>
+   <signal>clicked()</signal>
+   <receiver>QtCommandtest</receiver>
+   <slot>btn_to_gather()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>45</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>39</x>
+     <y>188</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btn_first_clicked()</slot>
   <slot>btn_clr_cmd()</slot>
+  <slot>btn_to_connect_tcp()</slot>
+  <slot>btn_to_gather()</slot>
  </slots>
 </ui>

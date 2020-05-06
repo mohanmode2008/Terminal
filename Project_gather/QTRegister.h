@@ -42,8 +42,6 @@ public slots:
 	int btn_post_edit();
 	void finished_post_edit(QNetworkReply*);
 	void btn_quit();
-
-	void on_pushButton_2_clicked();
 };
 
 

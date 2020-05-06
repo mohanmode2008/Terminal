@@ -29,7 +29,7 @@
   <widget class="QPushButton" name="btn_stop">
    <property name="geometry">
     <rect>
-     <x>70</x>
+     <x>150</x>
      <y>300</y>
      <width>75</width>
      <height>23</height>
@@ -42,7 +42,7 @@
   <widget class="QPushButton" name="btn_continue">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>250</x>
      <y>300</y>
      <width>75</width>
      <height>23</height>
@@ -64,7 +64,7 @@
    <property name="title">
     <string>实时呈现方向控制</string>
    </property>
-   <widget class="QPushButton" name="btn_up">
+   <widget class="QPushButton" name="btn_to_north">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -77,7 +77,7 @@
      <string>上</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_down">
+   <widget class="QPushButton" name="btn_to_south">
     <property name="geometry">
      <rect>
       <x>60</x>
@@ -87,10 +87,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>下</string>
+     <string>南</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_left">
+   <widget class="QPushButton" name="btn_to_west">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -100,10 +100,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>左</string>
+     <string>西</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_right">
+   <widget class="QPushButton" name="btn_to_east">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -113,7 +113,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>右</string>
+     <string>东</string>
     </property>
    </widget>
   </widget>
@@ -277,8 +277,8 @@
   <widget class="QPushButton" name="btn_exit">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>530</y>
+     <x>560</x>
+     <y>550</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -291,7 +291,7 @@
    <property name="geometry">
     <rect>
      <x>670</x>
-     <y>530</y>
+     <y>550</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -300,8 +300,74 @@
     <string>电源管理</string>
    </property>
   </widget>
+  <widget class="QTextEdit" name="textEdit_2">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>180</y>
+     <width>231</width>
+     <height>91</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="textEdit_3">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>10</y>
+     <width>241</width>
+     <height>151</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_ffpneg">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>550</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>测试ffpmeg</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>300</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>播放</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btn_ffpneg</sender>
+   <signal>clicked()</signal>
+   <receiver>QtRealtimeimage</receiver>
+   <slot>btn_to_ffpmeg()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>337</x>
+     <y>338</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>292</x>
+     <y>350</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>btn_to_ffpmeg()</slot>
+ </slots>
 </ui>

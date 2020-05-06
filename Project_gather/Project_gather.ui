@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>851</width>
+    <width>846</width>
     <height>587</height>
    </rect>
   </property>
@@ -307,13 +307,26 @@
      <string>命令测试</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn_ant">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>320</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>天线</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>851</width>
+     <width>846</width>
      <height>23</height>
     </rect>
    </property>
@@ -382,18 +395,34 @@
    </hints>
   </connection>
   <connection>
+   <sender>btn_ant</sender>
+   <signal>clicked()</signal>
+   <receiver>Project_gatherClass</receiver>
+   <slot>btn_to_ant()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>376</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>60</x>
+     <y>402</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>btn_commandtest</sender>
    <signal>clicked()</signal>
    <receiver>Project_gatherClass</receiver>
-   <slot>btn_first_clicked()</slot>
+   <slot>btn_cmdtest()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>22</x>
-     <y>318</y>
+     <x>33</x>
+     <y>312</y>
     </hint>
     <hint type="destinationlabel">
-     <x>14</x>
-     <y>344</y>
+     <x>35</x>
+     <y>285</y>
     </hint>
    </hints>
   </connection>
@@ -403,5 +432,7 @@
   <slot>btn_quit()</slot>
   <slot>btn_commandtest()</slot>
   <slot>btn_first_clicked()</slot>
+  <slot>btn_to_ant()</slot>
+  <slot>btn_cmdtest()</slot>
  </slots>
 </ui>

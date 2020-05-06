@@ -45,7 +45,6 @@ void QTRegister::btn_quit()
 	this->close();   
 }
 
-
 void QTRegister::btn_post_register()
 {
     file->write("btn_post_register\n");
@@ -85,15 +84,14 @@ void QTRegister::btn_post_register()
     _exampleObject.insert("companyName", companyName);
     _exampleObject.insert("companyPosition", companyPosition);
     _exampleObject.insert("companyAddress", companyAddress);
-    //post请求的数据是Json格式。首先创建QJsonObject对象，并插入数据。
+
     m_httpDocum.setObject(_exampleObject);
     m_httpData = m_httpDocum.toJson(QJsonDocument::Compact);
-    // 转成Json格式
+
     QNetworkRequest netReq;
     netReq.setUrl(QUrl("http://192.168.1.254:8080/api/register"));
     netReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    // 将用户名和密码发送至web服务器进行验证
-    qDebug() << "btn_post_register";
+ 
     networkAccessManager_post_code->post(netReq, m_httpData);
 }
 
@@ -120,7 +118,6 @@ int QTRegister::btn_post_getcode()
 {
     file->write("btn_post_getcode\n");
     QString Phonenum_string = ui.lineEdit_phonenum->text();
-    QString string_to_send;
     QByteArray  m_httpData;
     QJsonDocument m_httpDocum;
     QJsonObject _exampleObject;
@@ -131,10 +128,10 @@ int QTRegister::btn_post_getcode()
         return 0;
     }
     _exampleObject.insert("phone", Phonenum_string);
-    //post请求的数据是Json格式。首先创建QJsonObject对象，并插入数据。
+
     m_httpDocum.setObject(_exampleObject);
     m_httpData = m_httpDocum.toJson(QJsonDocument::Compact);
-    // 转成Json格式
+
     QNetworkRequest netReq;
     netReq.setUrl(QUrl("http://192.168.1.254:8080/api/sms/generateVerificationCode"));
     netReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -173,7 +170,6 @@ void QTRegister::finished_post_getcode(QNetworkReply* reply) {
     }
     reply->deleteLater();
 }
-
 
 int QTRegister::btn_post_edit()
 {
@@ -225,6 +221,7 @@ int QTRegister::btn_post_edit()
   */
     return 1;
 }
+
 void QTRegister::finished_post_edit(QNetworkReply* reply) {
 
     QByteArray bytes = reply->readAll();
@@ -255,14 +252,4 @@ void QTRegister::finished_post_edit(QNetworkReply* reply) {
         qDebug() << "=========";
     }
     reply->deleteLater();
-}
-
-
-void QTRegister::on_pushButton_2_clicked()
-{
-  //  QString e = ui.text_e->toPlainText();
-  //  QFile file("D:/VS_QT/project_gather/operation_record.txt");
-  //  file.open(QIODevice::WriteOnly | QIODevice::Text);
-  //  file.write("yangxioajun\n");
- //   file.close();
 }

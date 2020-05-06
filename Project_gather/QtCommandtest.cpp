@@ -9,6 +9,7 @@
 
 #include <QtNetwork>
 
+#include "QtWorkparameter.h"
 
 #pragma execution_character_set("utf-8")
 
@@ -93,7 +94,6 @@ QtCommandtest::QtCommandtest(QWidget *parent)
     connect(ui.listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(lineeditEnable()));
     connect(ui.listWidget_selectcmd, SIGNAL(itemSelectionChanged()), this, SLOT(select_lineeditEnable()));
 
-
     connect(ui.btn_cmd_send, SIGNAL(clicked()), this, SLOT(btn_to_send_cmd()));
     /*---------------*/
 
@@ -109,14 +109,16 @@ QtCommandtest::QtCommandtest(QWidget *parent)
     
     telecontrol_frame_down.frame_end_byte = 0xD709;
 
-    m_tcpClient = new QTcpSocket(this);
+/*    m_tcpClient = new QTcpSocket(this);
 
     connect(m_tcpClient, SIGNAL(connected()), this, SLOT(connected_success()));
 
 
     connect(m_tcpClient, SIGNAL(readyRead()), this, SLOT(update_ReadServer_data()));
 
-    m_tcpClient->connectToHost("192.168.0.102", 10086);
+
+    m_tcpClient->connectToHost("192.168.0.107", 10086);
+    */
 }
 
 QtCommandtest::~QtCommandtest()
@@ -594,7 +596,7 @@ void QtCommandtest::trigerMenu(QAction* act)
     }
 }
 
-void QtCommandtest::btn_first_clicked()
+void QtCommandtest::btn_to_gather()
 {
     Project_gather* Project_login = new Project_gather; 
     Project_login->show();
@@ -620,7 +622,7 @@ void QtCommandtest::btn_to_selectlist()
     ui.listWidget_selectcmd->addItem(aItem);
 }
 
-void QtCommandtest::select_lineeditEnable()
+qint8 QtCommandtest::select_lineeditEnable()
 {
     QListWidgetItem* aa = ui.listWidget_selectcmd->currentItem();
     QString  aa_string = aa->text();
@@ -645,6 +647,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("进入测试模式", 0x1);
         map_name_to_validdatalength.insert("进入测试模式", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据1");
+        return 1;
     }
     
     if (aa_string == "清空延时指令")
@@ -654,6 +657,7 @@ void QtCommandtest::select_lineeditEnable()
          map_name_to_code.insert("清空延时指令", 2);
          map_name_to_validdatalength.insert("清空延时指令", 1);
          ui.plainTextEdit_reminder->appendPlainText("已有有效数据2");
+         return 1;
     }
     if (aa_string == "清空延时任务") 
     {
@@ -662,6 +666,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("清空延时任务", 3);
         map_name_to_validdatalength.insert("清空延时任务", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据2");
+        return 1;
     }
       if (aa_string == "星务计算机复位")
     {
@@ -670,6 +675,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星务计算机复位", 4);
         map_name_to_validdatalength.insert("星务计算机复位", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据2");
+        return 1;
     }
     if (aa_string == "程序注入开始")
     {
@@ -678,6 +684,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("程序注入开始", 5);
         map_name_to_validdatalength.insert("程序注入开始", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据2");
+        return 1;
     }
     if (aa_string == "程序注入结束")
     {
@@ -686,6 +693,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("程序注入结束", 6);
         map_name_to_validdatalength.insert("程序注入结束", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据2");
+        return 1;
     }      
     if (aa_string == "星务计算机遥测查询")
     {
@@ -693,6 +701,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星务计算机遥测查询", 10);
         map_name_to_validdatalength.insert("星务计算机遥测查询", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节，测控通道：UXB测控数传一体机A：55H，");
+        return 1;
     }
     if (aa_string == "星务计算机日志下载")
     {
@@ -701,6 +710,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_validdatalength.insert("星务计算机日志下载", 9);
                ui.plainTextEdit_reminder->appendPlainText("有效数据9字节，比如:dd0000123400002345,dd代表通道，\
                                                    00001234日志记录起始时间，00002345日志记录结束时间");
+        return 1;
     }
     if (aa_string == "星务计算机访问记录下载")
     {
@@ -709,6 +719,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_validdatalength.insert("星务计算机访问记录下载", 9);
         ui.plainTextEdit_reminder->appendPlainText("有效数据9字节，比如:dd0000123400002345,dd代表通道，\
                                                    00001234访问记录起始时间，00002345访问记录结束时间");
+        return 1;
     }
     if (aa_string == "星务计算机短消息下载")
     {
@@ -716,6 +727,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星务计算机短消息下载", 13);
         map_name_to_validdatalength.insert("星务计算机短消息下载", 4);
         ui.plainTextEdit_reminder->appendPlainText("有效数据4字节，短消息接收用户。比如:XXXXXXXX");
+        return 1;
     }
     if (aa_string == "任务请求记录文件下载")
     {
@@ -724,6 +736,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_validdatalength.insert("星务计算机短消息下载", 9);
         ui.plainTextEdit_reminder->appendPlainText("有效数据9字节，比如:dd0000123400002345,dd代表通道，\
                                                    00001234请求记录起始时间，00002345请求记录结束时间");
+        return 1;
     }
 
     if (aa_string == "任务执行记录文件下载")
@@ -733,6 +746,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_validdatalength.insert("星务计算机短消息下载", 9);
         ui.plainTextEdit_reminder->appendPlainText("有效数据9字节，比如:dd0000123400002345,dd代表通道，\
                                                    00001234执行记录起始时间，00002345执行记录结束时间");
+        return 1;
     }
 
     if (aa_string == "单机设备透传遥测查询")
@@ -741,6 +755,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星务计算机短消息下载", 0x10);
         map_name_to_validdatalength.insert("星务计算机短消息下载", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节，测控通道。例如：UXB测控数传一体机A：55H；");
+        return 1;
     }
 
     if (aa_string == "PCDU遥测查询")
@@ -749,6 +764,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("PCDU遥测查询", 0x14);
         map_name_to_validdatalength.insert("PCDU遥测查询", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节，测控通道。例如：UXB测控数传一体机A：55H；");
+        return 1;
     }
 
     if (aa_string == "测控数传一体机遥测查询")
@@ -757,14 +773,16 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("PCDU遥测查询", 0x15);
         map_name_to_validdatalength.insert("PCDU遥测查询", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节，测控通道。例如：UXB测控数传一体机A：55H；");
+        return 1;
     }
 
-    if (aa_string == "姿态分系统遥测查询")
+    if (aa_string == "姿控分系统遥测查询")
     {
         telecontrol_frame_up.cmd_code = 0x16;
-        map_name_to_code.insert("姿态分系统遥测查询", 0x16);
-        map_name_to_validdatalength.insert("姿态分系统遥测查询", 1);
+        map_name_to_code.insert("姿控分系统遥测查询", 0x16);
+        map_name_to_validdatalength.insert("姿控分系统遥测查询", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节，测控通道。例如：UXB测控数传一体机A：55H；");
+        return 1;
     }
     
     if (aa_string == "GNSS接收机AB遥测查询")
@@ -773,6 +791,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("GNSS接收机AB遥测查询", 0x17);
         map_name_to_validdatalength.insert("GNSS接收机AB遥测查询", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节，测控通道。例如：UXB测控数传一体机A：55H；");
+        return 1;
     }
 
     if (aa_string == "工作模式切换")
@@ -781,6 +800,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("工作模式切换", 0x18);
         map_name_to_validdatalength.insert("工作模式切换", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，data0：待工作模式；data1：工作模式。");
+        return 1;
 
     }
 
@@ -790,6 +810,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("ACK应答开关设置", 0x19);
         map_name_to_validdatalength.insert("ACK应答开关设置", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节，7F：开；EC：关");
+        return 1;
     }
     
     if (aa_string == "卫星上行同步码设置")
@@ -798,6 +819,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("卫星上行同步码设置", 0x1a);
         map_name_to_validdatalength.insert("卫星上行同步码设置", 4);
         ui.plainTextEdit_reminder->appendPlainText("4字节，上行同步码");
+        return 1;
     }
 
     if (aa_string == "数传通道禁用与使能设置")
@@ -805,7 +827,8 @@ void QtCommandtest::select_lineeditEnable()
         telecontrol_frame_up.cmd_code = 0x1b;
         map_name_to_code.insert("数传通道禁用与使能设置", 0x1b);
         map_name_to_validdatalength.insert("数传通道禁用与使能设置", 8);
-        ui.plainTextEdit_reminder->appendPlainText("有效数据8字节，4字节禁用起始时间，4字节禁用结束时间");                                                  
+        ui.plainTextEdit_reminder->appendPlainText("有效数据8字节，4字节禁用起始时间，4字节禁用结束时间");  
+        return 1;
     }
 
     if (aa_string == "展开释放机构的禁止和使能")
@@ -814,6 +837,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("展开释放机构的禁止和使能", 0x1c);
         map_name_to_validdatalength.insert("展开释放机构的禁止和使能", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，DATA0：7FH：使能；ECH：禁止;DATA1：7FH：使能；ECH：禁止");
+        return 1;
     }
 
     if (aa_string == "自动热控的禁止和使能")
@@ -822,6 +846,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("自动热控的禁止和使能", 0x1d);
         map_name_to_validdatalength.insert("自动热控的禁止和使能", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，DATA0：7FH：使能；ECH：禁止;DATA1：7FH：使能；ECH：禁止");
+        return 1;
     }
    
     if (aa_string == "遥测通道的选择")
@@ -830,6 +855,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("遥测通道的选择", 0x1e);
         map_name_to_validdatalength.insert("遥测通道的选择", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，DATA0：测控通道;DATA1：测控通道");
+        return 1;
     }
 
     if (aa_string == "自动轨控的禁止和使能")
@@ -838,6 +864,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("自动轨控的禁止和使能", 0x1f);
         map_name_to_validdatalength.insert("自动轨控的禁止和使能", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，DATA0：7FH：使能；ECH：禁止;DATA1：7FH：使能；ECH：禁止");
+        return 1;
     }
 
     if (aa_string == "定时断电时间间隔设置")
@@ -846,6 +873,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("定时断电时间间隔设置", 0x20);
         map_name_to_validdatalength.insert("定时断电时间间隔设置", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，DATA0：未收到地面指令间隔时间，有效值1~30，单位分钟。DATA1：无任务需要执行间隔时间，有效值1~30，单位分钟。");
+        return 1;
     }
     
     if (aa_string == "实时广播遥测的开启和关闭")
@@ -854,6 +882,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("实时广播遥测的开启和关闭", 0x21);
         map_name_to_validdatalength.insert("实时广播遥测的开启和关闭", 2);
         ui.plainTextEdit_reminder->appendPlainText("DATA0：7FH：使能；ECH：禁止DATA1：7FH：使能；ECH：禁止");
+        return 1;
     }
    
     if (aa_string == "实时广播遥测的间隔时间")
@@ -862,6 +891,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("实时广播遥测的间隔时间", 0x22);
         map_name_to_validdatalength.insert("实时广播遥测的间隔时间", 2);
         ui.plainTextEdit_reminder->appendPlainText("DATA0：有效值为1~120，表示0.5~60s（设置值*0.5s），其他值无效DATA1：有效值为1~120，表示0.5~60s（设置值 * 0.5s），其他值无效");
+        return 1;
     }
 
     if (aa_string == "授权码上注开始")
@@ -870,6 +900,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("授权码上注开始", 0x23);
         map_name_to_validdatalength.insert("授权码上注开始", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节.AAH：追加，55H：覆盖");
+        return 1;
     }
 
     if (aa_string == "授权码上注结束")
@@ -879,6 +910,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("授权码上注结束", 0x24);
         map_name_to_validdatalength.insert("授权码上注结束", 1);
         ui.plainTextEdit_reminder->appendPlainText("有效数据已有！");
+        return 1;
     }
 
     if (aa_string == "星上授权码清除")
@@ -888,6 +920,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星上授权码清除", 0x25);
         map_name_to_validdatalength.insert("星上授权码清除", 1);
         ui.plainTextEdit_reminder->appendPlainText("有效数据已有！");
+        return 1;
     }
 
     if (aa_string == "星务软件上注开始")
@@ -896,6 +929,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星上授权码清除", 0x26);
         map_name_to_validdatalength.insert("星上授权码清除", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节。AAH=上注版本1；BBH = 上注版本2；CCH = 上注版本3；DDH = 上注版本4");
+        return 1;
     }
     
     if (aa_string == "星务软件上注结束")
@@ -904,6 +938,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星务软件上注结束", 0x27);
         map_name_to_validdatalength.insert("星务软件上注结束", 1);
         ui.plainTextEdit_reminder->appendPlainText("有效数据已有！");
+        return 1;
     }
 
     if (aa_string == "短消息上注")
@@ -913,6 +948,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_validdatalength.insert("短消息上注", 152);
         ui.plainTextEdit_reminder->appendPlainText("152字节，DATA0~DATA3：短消息接收用户ID；DATA4~DATA7：短消息发送用户ID； DATA8~DATA11：短消息发送终端ID\
                                                      DATA12~DATA151：短消息内容");
+        return 1;
     }
 
     if (aa_string == "时间上注")
@@ -922,6 +958,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_validdatalength.insert("时间上注", 6);
         ui.plainTextEdit_reminder->appendPlainText("6字节，DATA0~DATA3：授时时间，UTC时间秒\
                                                      DATA4~DATA5：授时时间毫秒");
+        return 1;
     }
 
     if (aa_string == "轨道上注")
@@ -933,6 +970,7 @@ void QtCommandtest::select_lineeditEnable()
                                                     DATA4~DATA5：轨道对应的时间毫秒\
                                                     DATA6~DATA17：位置（X、 Y、 Z），单位：米 均为单精度浮点数\
                                                     DATA18~DATA29：速度（Vx、 Vy、 Vz），单位：米 / 秒 均为单精度浮点数");
+     return 1;
     }
 
     if (aa_string == "设置最高冲段电压阈值")
@@ -941,6 +979,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置最高冲段电压阈值", 0x2b);
         map_name_to_validdatalength.insert("设置最高冲段电压阈值", 4);
         ui.plainTextEdit_reminder->appendPlainText("4字节，DATA0~DATA3：单精度浮点数");
+        return 1;
     }
 
     if (aa_string == "设置最低放电电压阈值")
@@ -949,6 +988,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置最低放电电压阈值", 0x2c);
         map_name_to_validdatalength.insert("设置最低放电电压阈值", 4);
         ui.plainTextEdit_reminder->appendPlainText("4字节，DATA0~DATA3：单精度浮点数");
+        return 1;
     }
     
     if (aa_string == "删除延时任务")
@@ -958,6 +998,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_validdatalength.insert("删除延时任务", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，DATA0~DATA1：任务序号\
                                                      DATA2~DATA5：任务执行时间，UTC时间");
+        return 1;
     }
 
     if (aa_string == "删除延时指令")
@@ -967,6 +1008,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_validdatalength.insert("删除延时指令", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，DATA0：单机及分系统编号\
             DATA1：指令代码");
+        return 1;
     }
 
     if (aa_string == "星务计算机软件版本切换")
@@ -975,6 +1017,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星务计算机软件版本切换", 0x9a);
         map_name_to_validdatalength.insert("星务计算机软件版本切换", 1);
         ui.plainTextEdit_reminder->appendPlainText("1字节，AAH=版本1;BBH = 版本2;CCH = 版本3;DDH = 版本4");
+        return 1;
     }
 
     if (aa_string == "单机设备指令透传")
@@ -983,6 +1026,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("单机设备指令透传", 0x9b);
         map_name_to_validdatalength.insert("单机设备指令透传", 0);
         ui.plainTextEdit_reminder->appendPlainText("n字节，依据实际指令长度");
+        return 1;
     }
     
     /*------------------------- AMPOBC--------------------*/
@@ -999,6 +1043,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("进入自主姿态控制", 0x01);
         map_name_to_validdatalength.insert("进入自主姿态控制", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "进入对日捕获与对日定向")
@@ -1008,6 +1053,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("进入对日捕获与对日定向", 0x02);
         map_name_to_validdatalength.insert("进入对日捕获与对日定向", 2);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！度");
+        return 1;
     }
 
     if (aa_string == "进入对日定向三轴稳定")
@@ -1017,6 +1063,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("进入对日定向三轴稳定", 0x03);
         map_name_to_validdatalength.insert("进入对日定向三轴稳定", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！度");
+        return 1;
     }
 
     if (aa_string == "进入对地定向三轴稳定")
@@ -1026,6 +1073,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("进入对地定向三轴稳定", 0x04);
         map_name_to_validdatalength.insert("进入对地定向三轴稳定", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "卫星姿态俯仰方向Y + 调整")
@@ -1034,6 +1082,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("卫星姿态俯仰方向Y + 调整", 0x05);
         map_name_to_validdatalength.insert("卫星姿态俯仰方向Y + 调整", 2);
         ui.plainTextEdit_reminder->appendPlainText("有效数据2字节，调整角度。");
+        return 1;
     }
 
     if (aa_string == "卫星姿态俯仰方向Y - 调整")
@@ -1042,6 +1091,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("卫星姿态俯仰方向Y - 调整", 0x06);
         map_name_to_validdatalength.insert("卫星姿态俯仰方向Y - 调整", 2);
         ui.plainTextEdit_reminder->appendPlainText("有效数据2字节，调整角度。");
+        return 1;
     }
 
     if (aa_string == "卫星姿态滚动方向X + 调整")
@@ -1050,6 +1100,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("卫星姿态滚动方向X + 调整", 0x07);
         map_name_to_validdatalength.insert("卫星姿态滚动方向X + 调整", 2);
         ui.plainTextEdit_reminder->appendPlainText("有效数据2字节，调整角度。");
+        return 1;
     }
 
     if (aa_string == "卫星姿态滚动方向X - 调整")
@@ -1058,6 +1109,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("卫星姿态滚动方向X - 调整", 0x08);
         map_name_to_validdatalength.insert("卫星姿态滚动方向X - 调整", 2);
         ui.plainTextEdit_reminder->appendPlainText("有效数据2字节，调整角度。");
+        return 1;
     }
 
     if (aa_string == "星敏感器A屏蔽使用")
@@ -1067,6 +1119,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星敏感器A屏蔽使用", 0x09);
         map_name_to_validdatalength.insert("星敏感器A屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "星敏感器A不屏蔽使用")
@@ -1076,6 +1129,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("单机设备指令透传", 0x0a);
         map_name_to_validdatalength.insert("单机设备指令透传", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "星敏感器B屏蔽使用")
@@ -1085,6 +1139,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星敏感器B屏蔽使用", 0x0b);
         map_name_to_validdatalength.insert("星敏感器B屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "星敏感器B不屏蔽使用")
@@ -1094,6 +1149,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星敏感器B不屏蔽使用", 0x0c);
         map_name_to_validdatalength.insert("星敏感器B不屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "数字太阳敏感器屏蔽使用")
@@ -1103,6 +1159,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("数字太阳敏感器屏蔽使用", 0x0D);
         map_name_to_validdatalength.insert("数字太阳敏感器屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "数字太阳敏感器不屏蔽使用")
@@ -1112,6 +1169,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("数字太阳敏感器不屏蔽使用", 0x0E);
         map_name_to_validdatalength.insert("数字太阳敏感器不屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "磁强计A屏蔽使用")
@@ -1121,6 +1179,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("磁强计A屏蔽使用", 0x0F);
         map_name_to_validdatalength.insert("磁强计A屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "磁强计A不屏蔽使用")
@@ -1130,6 +1189,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("磁强计A不屏蔽使用", 0x10);
         map_name_to_validdatalength.insert("磁强计A不屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "磁强计B屏蔽使用")
@@ -1139,6 +1199,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("磁强计B屏蔽使用", 0x11);
         map_name_to_validdatalength.insert("磁强计B屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "磁强计B不屏蔽使用")
@@ -1148,6 +1209,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("磁强计B不屏蔽使用", 0x12);
         map_name_to_validdatalength.insert("磁强计B不屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "陀螺A屏蔽使用")
@@ -1157,6 +1219,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("陀螺A屏蔽使用", 0x13);
         map_name_to_validdatalength.insert("陀螺A屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "陀螺A不屏蔽使用")
@@ -1166,6 +1229,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("陀螺A不屏蔽使用", 0x14);
         map_name_to_validdatalength.insert("陀螺A不屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "陀螺B屏蔽使用")
@@ -1175,6 +1239,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("陀螺B屏蔽使用", 0x15);
         map_name_to_validdatalength.insert("陀螺B屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "陀螺B不屏蔽使用")
@@ -1184,6 +1249,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("陀螺B不屏蔽使用", 0x16);
         map_name_to_validdatalength.insert("陀螺B不屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "陀螺C屏蔽使用")
@@ -1193,6 +1259,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("陀螺C屏蔽使用", 0x17);
         map_name_to_validdatalength.insert("陀螺C屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "陀螺C不屏蔽使用")
@@ -1202,6 +1269,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("陀螺C不屏蔽使用", 0x18);
         map_name_to_validdatalength.insert("陀螺C不屏蔽使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置角速度漂移估计标志：估计")
@@ -1211,6 +1279,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置角速度漂移估计标志：估计", 0x19);
         map_name_to_validdatalength.insert("设置角速度漂移估计标志：估计", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置角速度漂移估计标志：停止估计")
@@ -1220,6 +1289,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置角速度漂移估计标志：停止估计", 0x1a);
         map_name_to_validdatalength.insert("设置角速度漂移估计标志：停止估计", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置角速度漂移估计复位标志：复位置零")
@@ -1229,6 +1299,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置角速度漂移估计复位标志：复位置零", 0x1b);
         map_name_to_validdatalength.insert("设置角速度漂移估计复位标志：复位置零", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置角速度漂移估计复位标志：不复位")
@@ -1238,6 +1309,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置角速度漂移估计复位标志：不复位", 0x1c);
         map_name_to_validdatalength.insert("设置角速度漂移估计复位标志：不复位", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置飞轮摩擦估计标志：估计")
@@ -1247,6 +1319,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置飞轮摩擦估计标志：估计", 0x1d);
         map_name_to_validdatalength.insert("设置飞轮摩擦估计标志：估计", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置飞轮摩擦估计标志：计算")
@@ -1256,6 +1329,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置飞轮摩擦估计标志：计算", 0x1e);
         map_name_to_validdatalength.insert("设置飞轮摩擦估计标志：计算", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置飞轮角动量估计标志：估计")
@@ -1265,6 +1339,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置飞轮角动量估计标志：估计", 0x1f);
         map_name_to_validdatalength.insert("设置飞轮角动量估计标志：估计", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置飞轮角动量估计标志：计算")
@@ -1274,6 +1349,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置飞轮角动量估计标志：计算", 0x20);
         map_name_to_validdatalength.insert("设置飞轮角动量估计标志：计算", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置使用上注轨道确定标志：使用")
@@ -1284,6 +1360,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置使用上注轨道确定标志：使用", 0x21);
         map_name_to_validdatalength.insert("设置使用上注轨道确定标志：使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "设置使用上注轨道确定标志：不使用")
@@ -1293,6 +1370,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("设置使用上注轨道确定标志：不使用", 0x22);
         map_name_to_validdatalength.insert("设置使用上注轨道确定标志：不使用", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "常规模式陀螺积分定姿高优先级")
@@ -1302,6 +1380,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("常规模式陀螺积分定姿高优先级", 0x23);
         map_name_to_validdatalength.insert("常规模式陀螺积分定姿高优先级", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "常规模式双矢量定姿高优先级")
@@ -1311,6 +1390,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("常规模式双矢量定姿高优先级", 0x24);
         map_name_to_validdatalength.insert("常规模式双矢量定姿高优先级", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "星敏补偿（使用参考角速度）")
@@ -1320,6 +1400,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星敏补偿（使用参考角速度）", 0x25);
         map_name_to_validdatalength.insert("星敏补偿（使用参考角速度）", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "星敏补偿（使用本体角速度）")
@@ -1329,6 +1410,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星敏补偿（使用本体角速度）", 0x26);
         map_name_to_validdatalength.insert("星敏补偿（使用本体角速度）", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "星敏补偿（不补偿）")
@@ -1338,6 +1420,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星敏补偿（不补偿）", 0x27);
         map_name_to_validdatalength.insert("星敏补偿（不补偿）", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "使用计算磁场")
@@ -1347,6 +1430,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("使用计算磁场", 0x28);
         map_name_to_validdatalength.insert("使用计算磁场", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "不使用计算磁场，使用磁强计")
@@ -1356,6 +1440,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("不使用计算磁场，使用磁强计", 0x29);
         map_name_to_validdatalength.insert("不使用计算磁场，使用磁强计", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "星敏时间补偿")
@@ -1365,6 +1450,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星敏时间补偿", 0x2a);
         map_name_to_validdatalength.insert("星敏时间补偿", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
 
     if (aa_string == "星敏时间不补偿")
@@ -1374,6 +1460,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星敏时间不补偿", 0x2b);
         map_name_to_validdatalength.insert("星敏时间不补偿", 1);
         ui.plainTextEdit_reminder->appendPlainText("已有有效数据！");
+        return 1;
     }
     
     /*-----------------------------控制运算分系统----------------------------------*/
@@ -1389,6 +1476,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("磁力矩器阻尼系数", 0xA2);
         map_name_to_validdatalength.insert("磁力矩器阻尼系数",6);
         ui.plainTextEdit_reminder->appendPlainText("6字节，3个补码形式！");
+        return 1;
     }
 
     if (aa_string == "飞轮阻尼系数")
@@ -1397,6 +1485,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("飞轮阻尼系数", 0xA3);
         map_name_to_validdatalength.insert("飞轮阻尼系数", 6);
         ui.plainTextEdit_reminder->appendPlainText("6字节，3个补码形式！");
+        return 1;
     }
 
     if (aa_string == "飞轮控制比例系数")
@@ -1405,6 +1494,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("飞轮控制比例系数", 0xA4);
         map_name_to_validdatalength.insert("飞轮控制比例系数", 6);
         ui.plainTextEdit_reminder->appendPlainText("6字节，3个补码形式！");
+        return 1;
     }
 
     if (aa_string == "飞轮控制微分系数")
@@ -1413,6 +1503,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("飞轮控制微分系数", 0xA5);
         map_name_to_validdatalength.insert("飞轮控制微分系数", 6);
         ui.plainTextEdit_reminder->appendPlainText("6字节，3个补码形式！");
+        return 1;
     }
 
     if (aa_string == "飞轮控制积分系数")
@@ -1421,6 +1512,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("飞轮控制积分系数", 0xA6);
         map_name_to_validdatalength.insert("飞轮控制积分系数", 6);
         ui.plainTextEdit_reminder->appendPlainText("6字节，3个补码形式！");
+        return 1;
     }
 
     if (aa_string == "对地机动角速度参数")
@@ -1429,6 +1521,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("对地机动角速度参数", 0xA7);
         map_name_to_validdatalength.insert("对地机动角速度参数", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，量纲：2^10，无符号！");
+        return 1;
     }
 
     if (aa_string == "对日坐标系转角")
@@ -1437,6 +1530,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("对日坐标系转角", 0xA8);
         map_name_to_validdatalength.insert("对日坐标系转角", 4);
         ui.plainTextEdit_reminder->appendPlainText("4字节，Z轴90°，补码，量纲：2^13；  Y轴待定角度，补码，量纲：2 ^ 13");
+        return 1;
     }
 
     if (aa_string == "姿态测量误差上界")
@@ -1445,6 +1539,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("姿态测量误差上界", 0xA9);
         map_name_to_validdatalength.insert("姿态测量误差上界", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，处理方法：1-(DATA/2^19)，无符号");
+        return 1;
     }
 
     if (aa_string == "陀螺测量误差上界")
@@ -1453,6 +1548,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("姿态测量误差上界", 0xAA);
         map_name_to_validdatalength.insert("姿态测量误差上界", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，量纲：2^13，无符号");
+        return 1;
     }
 
     if (aa_string == "环境干扰力矩上界")
@@ -1461,6 +1557,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("环境干扰力矩上界", 0xAB);
         map_name_to_validdatalength.insert("环境干扰力矩上界", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，量纲：2^16，无符号");
+        return 1;
     }
 
     if (aa_string == "陀螺漂移上界")
@@ -1469,6 +1566,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("陀螺漂移上界", 0xAC);
         map_name_to_validdatalength.insert("陀螺漂移上界", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，量纲：2^16，无符号");
+        return 1;
     }
 
     if (aa_string == "磁矩最大值")
@@ -1477,6 +1575,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("磁矩最大值", 0xAD);
         map_name_to_validdatalength.insert("磁矩最大值", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，量纲：2^9，无符号");
+        return 1;
     }
 
     if (aa_string == "飞轮角动量测量误差上界")
@@ -1485,6 +1584,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("飞轮角动量测量误差上界", 0xAE);
         map_name_to_validdatalength.insert("飞轮角动量测量误差上界", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，量纲：2^12，无符号");
+        return 1;
     }
 
     if (aa_string == "飞轮摩擦上界")
@@ -1493,6 +1593,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("飞轮摩擦上界", 0xAF);
         map_name_to_validdatalength.insert("飞轮摩擦上界", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，量纲：2^16，无符号");
+        return 1;
     }
 
     if (aa_string == "系统角动量卸载界")
@@ -1501,6 +1602,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("系统角动量卸载界", 0xB0);
         map_name_to_validdatalength.insert("系统角动量卸载界", 4);
         ui.plainTextEdit_reminder->appendPlainText("4字节，量纲：2^16，无符号");
+        return 1;
     }
 
     if (aa_string == "卸载系数")
@@ -1509,6 +1611,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("卸载系数", 0xB1);
         map_name_to_validdatalength.insert("卸载系数", 6);
         ui.plainTextEdit_reminder->appendPlainText("6字节，量纲：2^14，无符号");
+        return 1;
     }
 
     if (aa_string == "磁控不控值")
@@ -1517,6 +1620,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("卸载系数", 0xB2);
         map_name_to_validdatalength.insert("卸载系数", 2);
         ui.plainTextEdit_reminder->appendPlainText("2字节，量纲：2^15，无符号");
+        return 1;
     }
 
     /*-----------------------------电源分系统----------------------------------*/
@@ -1532,6 +1636,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("蓄电池组放电开关通", 0x01);
         map_name_to_validdatalength.insert("蓄电池组放电开关通", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "蓄电池组放电开关断")
     {
@@ -1540,6 +1645,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("蓄电池组放电开关断", 0x02);
         map_name_to_validdatalength.insert("蓄电池组放电开关断", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "硬件过放继电器使能")
     {
@@ -1548,6 +1654,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("硬件过放继电器使能", 0x03);
         map_name_to_validdatalength.insert("硬件过放继电器使能", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "硬件过放继电器禁能")
     {
@@ -1556,6 +1663,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("硬件过放继电器禁能", 0x04);
         map_name_to_validdatalength.insert("硬件过放继电器禁能", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "星箭分离继电器使能")
     {
@@ -1564,6 +1672,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星箭分离继电器使能", 0x05);
         map_name_to_validdatalength.insert("星箭分离继电器使能", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "星箭分离继电器禁能")
     {
@@ -1572,6 +1681,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("星箭分离继电器禁能", 0x06);
         map_name_to_validdatalength.insert("星箭分离继电器禁能", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "蓄电池单体采样继电器使能")
     {
@@ -1580,6 +1690,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("蓄电池单体采样继电器使能", 0x07);
         map_name_to_validdatalength.insert("蓄电池单体采样继电器使能", 7);
         ui.plainTextEdit_reminder->appendPlainText("6字节，3个补码形式！");
+        return 1;
     }
     if (aa_string == "蓄电池单体采样继电器禁能")
     {
@@ -1588,6 +1699,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("蓄电池单体采样继电器禁能", 0x08);
         map_name_to_validdatalength.insert("蓄电池单体采样继电器禁能", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "UXB- A断B通")
     {
@@ -1596,6 +1708,8 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("UXB- A断B通", 0x09);
         map_name_to_validdatalength.insert("UXB- A断B通", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+
+        return 1;
     }
     if (aa_string == "UXB- A通B断")
     {
@@ -1604,6 +1718,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("UXB- A通B断", 0x0a);
         map_name_to_validdatalength.insert("UXB- A通B断", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，3个补码形式！");
+        return 1;
     }
     if (aa_string == "UXB- A通B通")
     {
@@ -1612,6 +1727,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("UXB- A通B通", 0x0b);
         map_name_to_validdatalength.insert("UXB- A通B通", 7);
         ui.plainTextEdit_reminder->appendPlainText("6字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "太阳电池阵1分流控制开")
     {
@@ -1620,6 +1736,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("太阳电池阵1分流控制开", 0x0c);
         map_name_to_validdatalength.insert("太阳电池阵1分流控制开", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "太阳电池阵1分流控制关")
     {
@@ -1628,6 +1745,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("太阳电池阵1分流控制关", 0x0d);
         map_name_to_validdatalength.insert("太阳电池阵1分流控制关", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }
     if (aa_string == "太阳电池阵2分流控制开")
     {
@@ -1636,6 +1754,7 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("太阳电池阵2分流控制开", 0x0e);
         map_name_to_validdatalength.insert("太阳电池阵2分流控制开", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
     }  
 
     /*-----------------------------电源分系统----------------------------------*/
@@ -1651,6 +1770,39 @@ void QtCommandtest::select_lineeditEnable()
         map_name_to_code.insert("蓄电池组放电开关通", 0x01);
         map_name_to_validdatalength.insert("蓄电池组放电开关通", 7);
         ui.plainTextEdit_reminder->appendPlainText("7字节，已有有效数据！");
+        return 1;
+    }
+
+    /*----------------------交互操作分系统-------------------------------------*/
+
+    telecontrol_frame_up.cmd_style = 0x4a;
+    telecontrol_frame_up.single_number = 0x5e;
+    telecontrol_frame_up.multiframe_count = 0;
+    ACK_reply = 1;
+    single_multiframe = 0;
+
+    QtWorkparameter* QtWorkparameter1;
+    QtWorkparameter1 = new QtWorkparameter;
+
+    uchar* aa2 = QtWorkparameter1->valid_data_to_send_data();
+    QString str0;
+    QString str;
+    if (aa_string == "成像任务设置")
+    {
+        qDebug() << "aa2";
+        
+        for (int i = 0; i < 100; i++)
+        {
+            str0 = QString("%1").arg(aa2[i] & 0xFF, 2, 16, QLatin1Char('0'));
+            str += str0;
+        }
+
+        ui.textEdit_validdata->insertPlainText(str);
+        telecontrol_frame_up.cmd_code = 0x01;
+        map_name_to_code.insert("成像任务设置", 0x01);
+        map_name_to_validdatalength.insert("成像任务设置", 100);
+        ui.plainTextEdit_reminder->appendPlainText("100字节，任务中设置！");
+        return 1;
     }
 }
 
@@ -1741,10 +1893,10 @@ quint16 QtCommandtest::crc16_ccitt(int len, quint8* data)
     return crc;    
 }
 
+quint8* total_data_to_send;
+quint16 total_data_len;
 qint8 QtCommandtest::btn_to_send_cmd()
-{
-    qDebug() << "btn_to_send_cmd";
-    qDebug() << select_in_cmd;
+{ 
     QString run_attr = ui.comboBox_exeattr->currentText();
     QString delay_time = ui.lineEdit->text();
     quint32 delay_time_int = delay_time.toInt();
@@ -1769,7 +1921,11 @@ qint8 QtCommandtest::btn_to_send_cmd()
         valid_data_byte = valid_data.left(2);
         valid_data = valid_data.mid(2);
         valid_data_int[j] = valid_data_byte.toUInt(NULL, 16);
+        
     }
+  //  qDebug() << validdata_length;
+  //  qDebug() << validdata_length_in_text;
+  //  qDebug() << "validdata_length_in_text";
     if (run_attr == "立即执行")
     {
         cmd_attribute = 0x1;
@@ -1778,10 +1934,13 @@ qint8 QtCommandtest::btn_to_send_cmd()
     {
         cmd_attribute = 0x2;
     }
+    delay_time_int = byteOrderChange32Bit(&delay_time_int);
     telecontrol_frame_up.cmd_run_time = delay_time_int;   
     telecontrol_frame_up.ACK_cmdattribute_multiframe = ACK_reply << 4 | cmd_attribute << 2 | single_multiframe;
 
     total_validdata_length = 0;
+    /*----------------------*/
+
     if ((validdata_length +14) <= 16)
     {
         telecontrol_frame_up.pattern_byte = 0x5a;
@@ -1805,7 +1964,7 @@ qint8 QtCommandtest::btn_to_send_cmd()
         telecontrol_frame_up.pattern_byte = 0xa5;
         total_validdata_length = 256;
         data_to_send = new quint8[23 + total_validdata_length];
-    }
+    } 
     else
     {
         ui.plainTextEdit_reminder->appendPlainText("有效数据位数错误！！");
@@ -1819,10 +1978,13 @@ qint8 QtCommandtest::btn_to_send_cmd()
     CRC_byte_change_order = byteOrderChange16Bit(CRC_byte);
     telecontrol_frame_down.CRC_byte = CRC_byte_change_order;
     memcpy(data_to_send + 5 + total_validdata_length, &telecontrol_frame_down, sizeof(telecontrol_frame_down_t));
+
+    total_data_len = total_validdata_length + 9;
+    total_data_to_send = new quint8[total_data_len];
+    memcpy(total_data_to_send, data_to_send, total_data_len);
+
     m_tcpClient->write((char*)data_to_send, (total_validdata_length +9));
-   
-    delete valid_data_int;
-    delete data_to_send;
+
     return 1;
  }
 
@@ -2247,25 +2409,163 @@ void QtCommandtest::btn_clr_cmd()
 
 }
 
-quint32 QtCommandtest::byteOrderChange32Bit(quint32 data)
+quint32 QtCommandtest::byteOrderChange32Bit(quint32 *data)
 {
     quint32 tmp;
-    tmp = (data & 0x000f << 24) | (data & 0x00f0 << 8) | (data & 0x0f00 >> 8) | (data & 0xf000 >> 24);
+    tmp = (*data & 0x000f << 24) | (*data & 0x00f0 << 8) | (*data & 0x0f00 >> 8) | (*data & 0xf000 >> 24);
     return tmp;
 }
 
-/*
-*********************************************************************************************************
-* name: byteOrderChange16Bit
-* description: 字节顺序调整
-* data:需要调整的值
-* 返回:调整后的值
-*********************************************************************************************************
-*/
 quint16 QtCommandtest::byteOrderChange16Bit(quint16 data)
 {
     quint16 tmp;
     tmp = data>> 8 | data << 8;
     return tmp;
    
+}
+
+void QtCommandtest::btn_to_connect_tcp()
+{
+     
+    m_tcpClient = new QTcpSocket(this);
+
+    QString line_ip;;
+    QString line_port;
+ 
+    QFile file("d:/test.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "Can't open the file!" << endl;
+    }
+    int i = 0;
+    while (!file.atEnd()) {
+        QByteArray line = file.readLine();
+        QString str(line);
+        if (i == 0)
+        {
+            line_ip = str;
+            i++;
+        }
+        else
+        {
+            line_port = str;
+        }
+        qDebug() << str;
+    }
+    int num = line_port.toInt();
+    m_tcpClient->connectToHost(line_ip, num);
+    connect(m_tcpClient, SIGNAL(connected()), this, SLOT(connected_success()));
+
+
+    connect(m_tcpClient, SIGNAL(readyRead()), this, SLOT(update_ReadServer_data()));
+
+
+ //   m_tcpClient->connectToHost("192.168.0.107", 10086);
+
+    file.close();
+}
+
+
+void QtCommandtest::by_udp_connect_to_sky()
+{
+    sender1 = new QUdpSocket(this);
+
+    sender1->bind(10087, QUdpSocket::ShareAddress);
+
+    connect(sender1, SIGNAL(readyRead()), this, SLOT(udp_rev_data_from_sky()));
+
+    qDebug() << "have initial!";
+}
+
+void QtCommandtest::udp_rev_data_from_sky() //处理等待的数据报
+{
+    while (sender1->hasPendingDatagrams()) //拥有等待的数据报
+    {
+        QByteArray datagram; //拥于存放接收的数据报
+        datagram.resize(sender1->pendingDatagramSize());
+        sender1->readDatagram(datagram.data(), datagram.size());
+        unsigned short size = datagram.size();
+        unsigned char msg[10] = { 0 };
+        memcpy(msg, datagram.data(), size);
+        unsigned short arr = msg[0];
+        arr = (arr << 8) + msg[1];
+        qDebug() << msg[0] << msg[1] << msg[2] << msg[3];
+    }
+}
+
+void QtCommandtest::udp_send_device_reset_data()
+{
+    unsigned char msg[10] = { 0,1,2,3 };
+
+    QString  send_data = "7EA58C9101011111999988";
+    char* ch;
+    QByteArray ba = send_data.toLatin1();
+    ch = ba.data();
+
+    quint8* data_to_send;
+    data_to_send = new uchar[11];
+
+    quint32 smg_head = 0x7EA58C91;
+    quint16 smg_type = 0x0101;
+    quint16 smg_len = 0x2;
+    //quint16 smg_content = 0x9999;
+    quint8  smg_aisle = 0x01;
+    quint8  smg_reset = 0xFF;
+    quint8  smg_crc = 0x88;
+
+    memcpy(data_to_send, &smg_head, 4);
+    memcpy(data_to_send + 4, &smg_type, 2);
+    memcpy(data_to_send + 6, &smg_len, 2);
+    memcpy(data_to_send + 8, &smg_aisle, 1);
+    memcpy(data_to_send + 8, &smg_aisle, 1);
+    memcpy(data_to_send + 10, &smg_crc, 1);
+
+    sender1->writeDatagram((char*)data_to_send, 11, QHostAddress("192.168.0.70"), 10086);
+}
+
+void QtCommandtest::udp_send_signal_pata_data()
+{
+    quint8* data_to_send;
+    data_to_send = new uchar[21];
+    memset(data_to_send, 0, 21);
+    quint32 smg_head = 0x7EA58C91;
+    quint16 smg_type = 0x0101;
+    quint16 smg_len = 12;
+    quint8  smg_aisle = 0x01;
+    quint8  smg_launch_switch = 0x01;
+    quint8  smg_modulation_switch = 0x01;
+
+    quint8  smg_crc = 0x88;
+
+    memcpy(data_to_send, &smg_head, 4);
+    memcpy(data_to_send + 4, &smg_type, 2);
+    memcpy(data_to_send + 6, &smg_len, 2);
+    memcpy(data_to_send + 8, &smg_aisle, 1);
+    memcpy(data_to_send + 9, &smg_launch_switch, 1);
+    memcpy(data_to_send + 10, &smg_modulation_switch, 1);
+    memcpy(data_to_send + 21, &smg_crc, 1);
+
+    sender1->writeDatagram((char*)data_to_send, 21, QHostAddress("192.168.0.70"), 10086);
+}
+
+void QtCommandtest::udp_send_data()
+{
+    quint8* data_to_send;
+
+    data_to_send = new uchar[10 + total_data_len];
+
+    memset(data_to_send, 0, 21);
+    quint32 smg_head = 0x7EA58C91;
+    quint16 smg_type = 0x0104;
+    quint16 smg_len = total_data_len + 1;
+    quint8  smg_crc = 0x88;
+    memcpy(data_to_send, &smg_head, 4);
+    memcpy(data_to_send + 4, &smg_type, 2);
+    memcpy(data_to_send + 6, &smg_len, 2);
+    memset(data_to_send + 8, 0, 1);
+    memcpy(data_to_send + 9, &total_data_to_send, total_data_len);
+
+    memcpy(data_to_send + 10 + total_data_len - 1, &smg_crc, 1);
+
+    sender1->writeDatagram((char*)data_to_send, total_data_len +10, QHostAddress("192.168.0.70"), 10086);
 }

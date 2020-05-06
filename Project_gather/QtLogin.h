@@ -32,13 +32,21 @@ private:
 
 	QNetworkAccessManager manager_get_logout;
 
+	QNetworkAccessManager * manager_get_id;
+
+	QNetworkAccessManager * manager_get_regiter_dev;
+
+	QNetworkAccessManager networkAccessManager_get_dev;
+
 	QFile* file;
+	QString get_usr_id();
+	QString get_local_ip();
 
 private slots:
 	void btn_post_login();
 	void finished_post_login(QNetworkReply*);
 
-	void btn_return_status();
+	void btn_return_status(); 
 	void btn_to_register();
 
 	void btn_post_logout();
@@ -46,6 +54,16 @@ private slots:
 
 	void btn_to_quit();
 	void btn_to_Workparameter();
+
+	void btn_get_usrid();
+	void finished_get_usrid(QNetworkReply* reply);
+
+	void btn_post_regiser_dev();
+	void finished_post_regiser_dev();
+
+	void btn_get_dev_interface();
+	void finished_get_dev(QNetworkReply* reply);
+
 };
 
 

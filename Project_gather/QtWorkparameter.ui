@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>838</width>
-    <height>541</height>
+    <height>628</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
      <x>460</x>
      <y>290</y>
      <width>321</width>
-     <height>101</height>
+     <height>141</height>
     </rect>
    </property>
   </widget>
@@ -58,8 +58,8 @@
   <widget class="QLabel" name="label_13">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>450</y>
+     <x>40</x>
+     <y>540</y>
      <width>81</width>
      <height>16</height>
     </rect>
@@ -77,8 +77,8 @@
   <widget class="QLabel" name="label_14">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>480</y>
+     <x>40</x>
+     <y>570</y>
      <width>54</width>
      <height>12</height>
     </rect>
@@ -90,8 +90,8 @@
   <widget class="QComboBox" name="comboBox_6">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>470</y>
+     <x>100</x>
+     <y>560</y>
      <width>81</width>
      <height>22</height>
     </rect>
@@ -100,8 +100,8 @@
   <widget class="QLineEdit" name="lineEdit_4">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>470</y>
+     <x>190</x>
+     <y>560</y>
      <width>113</width>
      <height>20</height>
     </rect>
@@ -110,8 +110,8 @@
   <widget class="QLabel" name="label_15">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>470</y>
+     <x>330</x>
+     <y>560</y>
      <width>31</width>
      <height>16</height>
     </rect>
@@ -123,8 +123,8 @@
   <widget class="QLabel" name="label_16">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>470</y>
+     <x>460</x>
+     <y>560</y>
      <width>31</width>
      <height>16</height>
     </rect>
@@ -136,8 +136,8 @@
   <widget class="QLabel" name="label_17">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>470</y>
+     <x>570</x>
+     <y>560</y>
      <width>31</width>
      <height>16</height>
     </rect>
@@ -149,8 +149,8 @@
   <widget class="QLabel" name="label_18">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>510</y>
+     <x>330</x>
+     <y>600</y>
      <width>31</width>
      <height>16</height>
     </rect>
@@ -162,8 +162,8 @@
   <widget class="QLabel" name="label_19">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>510</y>
+     <x>440</x>
+     <y>600</y>
      <width>54</width>
      <height>12</height>
     </rect>
@@ -175,8 +175,8 @@
   <widget class="QLabel" name="label_20">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>510</y>
+     <x>570</x>
+     <y>600</y>
      <width>31</width>
      <height>16</height>
     </rect>
@@ -188,8 +188,8 @@
   <widget class="QPushButton" name="pushButton_5">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>510</y>
+     <x>40</x>
+     <y>600</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -201,8 +201,8 @@
   <widget class="QPushButton" name="pushButton_6">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>510</y>
+     <x>140</x>
+     <y>600</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -214,8 +214,8 @@
   <widget class="QPushButton" name="pushButton_7">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>510</y>
+     <x>230</x>
+     <y>600</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -227,8 +227,8 @@
   <widget class="QLineEdit" name="lineEdit_5">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>470</y>
+     <x>360</x>
+     <y>560</y>
      <width>91</width>
      <height>20</height>
     </rect>
@@ -237,8 +237,8 @@
   <widget class="QLineEdit" name="lineEdit_6">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>510</y>
+     <x>360</x>
+     <y>600</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -247,8 +247,8 @@
   <widget class="QLineEdit" name="lineEdit_7">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>470</y>
+     <x>490</x>
+     <y>560</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -257,8 +257,8 @@
   <widget class="QLineEdit" name="lineEdit_8">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>510</y>
+     <x>490</x>
+     <y>600</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -267,8 +267,8 @@
   <widget class="QLineEdit" name="lineEdit_9">
    <property name="geometry">
     <rect>
-     <x>600</x>
-     <y>470</y>
+     <x>610</x>
+     <y>560</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -277,8 +277,8 @@
   <widget class="QLineEdit" name="lineEdit_10">
    <property name="geometry">
     <rect>
-     <x>600</x>
-     <y>510</y>
+     <x>610</x>
+     <y>600</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -287,8 +287,8 @@
   <widget class="QPushButton" name="pushButton_8">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>470</y>
+     <x>690</x>
+     <y>560</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -300,8 +300,8 @@
   <widget class="QPushButton" name="pushButton_9">
    <property name="geometry">
     <rect>
-     <x>680</x>
-     <y>510</y>
+     <x>690</x>
+     <y>600</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -315,8 +315,8 @@
     <rect>
      <x>80</x>
      <y>10</y>
-     <width>341</width>
-     <height>381</height>
+     <width>351</width>
+     <height>541</height>
     </rect>
    </property>
    <property name="title">
@@ -325,61 +325,21 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>20</x>
       <y>20</y>
-      <width>261</width>
-      <height>191</height>
+      <width>311</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="title">
      <string>任务</string>
     </property>
-    <widget class="QComboBox" name="comboBox_orientationEW">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>10</y>
-       <width>31</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>E</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>W</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QComboBox" name="comboBox_orientationSN">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>60</y>
-       <width>31</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>N</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>S</string>
-      </property>
-     </item>
-    </widget>
     <widget class="QLineEdit" name="lineEdit_longitude">
      <property name="geometry">
       <rect>
-       <x>120</x>
+       <x>60</x>
        <y>10</y>
-       <width>71</width>
+       <width>81</width>
        <height>20</height>
       </rect>
      </property>
@@ -387,9 +347,9 @@
     <widget class="QLineEdit" name="lineEdit_latitude">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>60</y>
-       <width>71</width>
+       <x>210</x>
+       <y>10</y>
+       <width>91</width>
        <height>20</height>
       </rect>
      </property>
@@ -397,58 +357,148 @@
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>90</x>
+       <x>0</x>
        <y>10</y>
-       <width>31</width>
+       <width>61</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>经度</string>
+      <string>观测点经度</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_5">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>60</y>
-       <width>31</width>
+       <x>150</x>
+       <y>10</y>
+       <width>61</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>纬度</string>
+      <string>观测点纬度</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLabel" name="label_25">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>40</y>
+       <x>10</x>
+       <y>50</y>
        <width>71</width>
-       <height>20</height>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>最晚完成时间</string>
+     </property>
+    </widget>
+    <widget class="QDateTimeEdit" name="accomplish_time">
+     <property name="geometry">
+      <rect>
+       <x>100</x>
+       <y>50</y>
+       <width>121</width>
+       <height>22</height>
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="QPushButton" name="btn_to_get_time">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>70</y>
+       <width>81</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>获取时间</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>130</y>
+      <width>341</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>成像选择</string>
+    </property>
+    <widget class="QLabel" name="label_9">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>40</y>
-       <width>31</width>
-       <height>16</height>
+       <y>70</y>
+       <width>54</width>
+       <height>12</height>
       </rect>
      </property>
      <property name="text">
-      <string>地点</string>
+      <string>成像类型</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_10">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>100</y>
+       <width>54</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>张数/时长</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_imagingtype">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>70</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>单张</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>多张</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>视频</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>54</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>相机选择</string>
      </property>
     </widget>
     <widget class="QComboBox" name="comboBox_camera">
      <property name="geometry">
       <rect>
-       <x>110</x>
-       <y>100</y>
-       <width>71</width>
+       <x>60</x>
+       <y>40</y>
+       <width>61</width>
        <height>22</height>
       </rect>
      </property>
@@ -473,82 +523,7 @@
       </property>
      </item>
     </widget>
-    <widget class="QLabel" name="label_6">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>110</y>
-       <width>54</width>
-       <height>12</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>相机选择</string>
-     </property>
-    </widget>
-    <widget class="QDateEdit" name="dateEdit">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>130</y>
-       <width>71</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>140</y>
-       <width>54</width>
-       <height>12</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>日期选择</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_to_task_plan">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>160</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>任务输入</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>220</y>
-      <width>311</width>
-      <height>141</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>成像选择</string>
-    </property>
-    <widget class="QPushButton" name="btn_apply_author_code">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>80</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>申请授权码</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_9">
+    <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -558,15 +533,61 @@
       </rect>
      </property>
      <property name="text">
-      <string>成像类型</string>
+      <string>卫星编号</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_imagingnumber">
+    <widget class="QLineEdit" name="lineEdit">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>60</x>
        <y>10</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_number">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>100</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>130</y>
        <width>41</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>分辨率</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>170</y>
+       <width>54</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>图像帧频</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_frame_rate">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>160</y>
+       <width>61</width>
        <height>22</height>
       </rect>
      </property>
@@ -577,19 +598,499 @@
      </item>
      <item>
       <property name="text">
+       <string>15</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>10</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>任务工作模式</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>220</y>
+       <width>54</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>压缩模式</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_22">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>250</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>压缩比</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_23">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>280</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>记录序号</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_24">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>310</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>压缩文件号</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_26">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>100</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>指令开始时间</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_27">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>130</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>最晚有效时间</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="task_work_mode">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>10</y>
+       <width>121</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>实时成像实时数传</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>实时成像延时数传</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>延时成像延时数传</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>实时交互操作</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_36">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>200</y>
+       <width>54</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>工作模式</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_workmode">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>190</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>记录</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>记录压缩直传</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="comboBox_compressmode">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>220</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>无压缩</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>有损压缩</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>无损压缩</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="comboBox_compressrate">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>250</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
        <string>2</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>3</string>
+       <string>50</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_11">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>280</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_12">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>310</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_35">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>70</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>数传站纬度</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_34">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>40</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>数传站经度</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_pass_latitude">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>70</y>
+       <width>71</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_pass_longitude">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>40</y>
+       <width>71</width>
+       <height>20</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_30">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>230</y>
+       <width>54</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>优先级</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_29">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>190</y>
+       <width>54</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>指令转换</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_28">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>160</y>
+       <width>54</width>
+       <height>12</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>数传数率</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_priority">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>220</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>0</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>4</string>
+       <string>1</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="comboBox_instruction_conversion">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>190</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>允许</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>不允许</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="comboBox_transfer_rate">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>160</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>5Mpbs</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>40Mpbs</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_31">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>250</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>使用开始时间</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_32">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>280</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>使用结束时间</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="btn_apply_author_code">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>380</y>
+       <width>61</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>申请授权码</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_33">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>310</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>允许调试时间</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_charge_time">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>310</y>
+       <width>71</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>允许</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>不许</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="comboBox_ratio">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>130</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>2048*2048</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>640*512</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_37">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>340</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>数传站仰角</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox_elevation">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>340</y>
+       <width>61</width>
+       <height>22</height>
+      </rect>
+     </property>
      <item>
       <property name="text">
        <string>5</string>
@@ -597,154 +1098,293 @@
      </item>
      <item>
       <property name="text">
-       <string>6</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
        <string>7</string>
       </property>
      </item>
-     <item>
-      <property name="text">
-       <string>8</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>9</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>10</string>
-      </property>
-     </item>
     </widget>
-    <widget class="QPushButton" name="btn_to_timed_image">
+    <widget class="QLabel" name="label_38">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>110</y>
-       <width>75</width>
-       <height>23</height>
+       <x>0</x>
+       <y>340</y>
+       <width>51</width>
+       <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>定时成像</string>
+      <string>终端经度</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_11">
+    <widget class="QLabel" name="label_39">
      <property name="geometry">
       <rect>
-       <x>130</x>
-       <y>50</y>
-       <width>54</width>
-       <height>12</height>
+       <x>0</x>
+       <y>370</y>
+       <width>51</width>
+       <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>视频时间</string>
+      <string>终端纬度</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_imagingtime">
+    <widget class="QLineEdit" name="Edit_term_longitude">
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>40</y>
+       <y>340</y>
        <width>61</width>
-       <height>22</height>
+       <height>20</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string>10:46</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>18.54</string>
-      </property>
-     </item>
     </widget>
-    <widget class="QLabel" name="label_21">
+    <widget class="QLineEdit" name="Edit_term_latitude">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>54</width>
-       <height>12</height>
+       <x>60</x>
+       <y>370</y>
+       <width>61</width>
+       <height>20</height>
       </rect>
      </property>
-     <property name="text">
-      <string>成像时间</string>
-     </property>
     </widget>
-    <widget class="QPushButton" name="btn_to_realtime_image">
+    <widget class="QDateTimeEdit" name="edit_cmdstarttime">
      <property name="geometry">
       <rect>
        <x>210</x>
-       <y>110</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>实时成像</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_10">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>20</y>
-       <width>54</width>
-       <height>12</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>成像张数</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="comboBox_imagingtype">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>10</y>
-       <width>61</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <item>
-      <property name="text">
-       <string>单张</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>多张</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>视频</string>
-      </property>
-     </item>
-    </widget>
-    <widget class="QSlider" name="Slider_videotime">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>40</y>
+       <y>100</y>
        <width>121</width>
        <height>22</height>
       </rect>
      </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+    </widget>
+    <widget class="QDateTimeEdit" name="edit_cmdendtime">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>130</y>
+       <width>121</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QDateTimeEdit" name="edit_usestarttime">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>250</y>
+       <width>121</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QDateTimeEdit" name="edit_useendtime">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>280</y>
+       <width>121</width>
+       <height>22</height>
+      </rect>
      </property>
     </widget>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="btn_to_timed_image">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>230</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>定时成像</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_realtime_image">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>160</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>实时成像</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_imagingtime">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>20</y>
+     <width>61</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>10:46</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>18.54</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="label_21">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>20</y>
+     <width>54</width>
+     <height>12</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>成像时间</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>470</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="line">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>470</y>
+     <width>113</width>
+     <height>20</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>50</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>时间设置</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>50</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>时间获取</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_ground_ctl">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>210</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>客户端连接运控</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_Identification">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>250</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>客户端身份识别</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_ground_ctl_2">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>210</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>终端连接运控</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_Identification_2">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>250</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>终端身份识别</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>100</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>解析遥测</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_10">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>50</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>UDP连接</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_2">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>110</y>
+     <width>171</width>
+     <height>20</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -782,9 +1422,95 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>QtWorkparameter</receiver>
+   <slot>json_test()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>520</x>
+     <y>486</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>505</x>
+     <y>508</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>QtWorkparameter</receiver>
+   <slot>date_time_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>450</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>535</x>
+     <y>216</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>QtWorkparameter</receiver>
+   <slot>date_time_get()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>570</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>647</x>
+     <y>234</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_10</sender>
+   <signal>clicked()</signal>
+   <receiver>QtWorkparameter</receiver>
+   <slot>by_udp_connect_to_sky()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>726</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>777</x>
+     <y>27</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>QtWorkparameter</receiver>
+   <slot>udp_send_device_reset_data()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>755</x>
+     <y>97</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>751</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>on_btn_return_to_state_clicked()</slot>
   <slot>btn_quit()</slot>
+  <slot>json_test()</slot>
+  <slot>slot1()</slot>
+  <slot>date_time_set()</slot>
+  <slot>date_time_get()</slot>
+  <slot>by_udp_connect_to_sky()</slot>
+  <slot>udp_send_device_reset_data()</slot>
  </slots>
 </ui>
