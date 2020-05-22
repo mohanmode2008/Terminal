@@ -1,4 +1,3 @@
-//#include "QTLogin.h"
 #include "QTRegister.h"
 
 QTRegister::QTRegister(QWidget *parent)
@@ -7,19 +6,19 @@ QTRegister::QTRegister(QWidget *parent)
     setAttribute(Qt::WA_DeleteOnClose);
 	ui.setupUi(this);
 	connect(ui.btn_to_getcode, SIGNAL(clicked()), this, SLOT(btn_post_getcode()));
-	connect(ui.btn_register, SIGNAL(clicked()), this, SLOT(btn_post_register()));
-    connect(ui.btn_to_login, SIGNAL(clicked()), this, SLOT(btn_to_login()));
- //   connect(ui.btn_to_getcode, SIGNAL(clicked()), this, SLOT(turn_verification()));
+	connect(ui.btn_to_register, SIGNAL(clicked()), this, SLOT(btn_post_register()));
+    connect(ui.btn_to_login, SIGNAL(clicked()), this, SLOT(btn_login()));
     connect(ui.btn_to_edit, SIGNAL(clicked()), this, SLOT(btn_post_edit()));
 
-	networkAccessManager_post_code = new QNetworkAccessManager(this);
-	connect(networkAccessManager_post_code, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished_post_getcode(QNetworkReply*)));
+    manager_post_register = new QNetworkAccessManager(this);
 
-	networkAccessManager_post_register = new QNetworkAccessManager(this);
-	connect(networkAccessManager_post_register, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished_post_register(QNetworkReply*)));
+	connect(manager_post_register, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished_post_register(QNetworkReply*)));
 
-	networkAccessManager_post_edit = new QNetworkAccessManager(this);
-	connect(networkAccessManager_post_edit, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished_post_edit(QNetworkReply*)));	
+    manager_post_code = new QNetworkAccessManager(this);
+	connect(manager_post_code, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished_post_getcode(QNetworkReply*)));
+
+    manager_post_edit = new QNetworkAccessManager(this);
+	connect(manager_post_edit, SIGNAL(finished(QNetworkReply*)), this, SLOT(finished_post_edit(QNetworkReply*)));
 
     file = new QFile;
     file->setFileName("D:/VS_QT/project_gather/operation_record.txt");
@@ -31,7 +30,7 @@ QTRegister::~QTRegister()
     file->close();
 }
 
-void QTRegister::btn_to_login ()
+void QTRegister::btn_login ()
 {
     file->write("btn_to_login\n");
 	QtLogin* Project_login = new QtLogin;
@@ -61,38 +60,38 @@ void QTRegister::btn_post_register()
     QString companyPosition = ui.lineEdit_companyPosition->text();
     QString companyAddress = ui.lineEdit_companyaddress->text();
 
-    QByteArray  m_httpData;
-    QJsonDocument m_httpDocum;
-    QJsonObject _exampleObject;
+    QByteArray  http_data;
+    QJsonDocument http_docum;
+    QJsonObject http_object;
 
-    _exampleObject.insert("login", login);
-    _exampleObject.insert("password", password);
-    _exampleObject.insert("phone", phone);
-    _exampleObject.insert("smsCode", smsCode);
-    _exampleObject.insert("firstName", firstName);
-    _exampleObject.insert("lastName", lastName);
+    http_object.insert("login", login);
+    http_object.insert("password", password);
+    http_object.insert("phone", phone);
+    http_object.insert("smsCode", smsCode);
+    http_object.insert("firstName", firstName);
+    http_object.insert("lastName", lastName);
     if (gender.length())
     {
-        _exampleObject.insert("gender", gender);
+        http_object.insert("gender", gender);
     }
     else
     {
-        _exampleObject.insert("gender", "SECRET");
+        http_object.insert("gender", "SECRET");
     }
-    _exampleObject.insert("birthday", birthday);
-    _exampleObject.insert("email", email);
-    _exampleObject.insert("companyName", companyName);
-    _exampleObject.insert("companyPosition", companyPosition);
-    _exampleObject.insert("companyAddress", companyAddress);
+    http_object.insert("birthday", birthday);
+    http_object.insert("email", email);
+    http_object.insert("companyName", companyName);
+    http_object.insert("companyPosition", companyPosition);
+    http_object.insert("companyAddress", companyAddress);
 
-    m_httpDocum.setObject(_exampleObject);
-    m_httpData = m_httpDocum.toJson(QJsonDocument::Compact);
+    http_docum.setObject(http_object);
+    http_data = http_docum.toJson(QJsonDocument::Compact);
 
     QNetworkRequest netReq;
     netReq.setUrl(QUrl("http://192.168.1.254:8080/api/register"));
     netReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
  
-    networkAccessManager_post_code->post(netReq, m_httpData);
+    manager_post_register->post(netReq, http_data);
 }
 
 void QTRegister::finished_post_register(QNetworkReply* reply)
@@ -135,29 +134,23 @@ int QTRegister::btn_post_getcode()
     QNetworkRequest netReq;
     netReq.setUrl(QUrl("http://192.168.1.254:8080/api/sms/generateVerificationCode"));
     netReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    networkAccessManager_post_code->post(netReq, m_httpData);
+    manager_post_code->post(netReq, m_httpData);
     return 1;
 }
 
-void QTRegister::finished_post_getcode(QNetworkReply* reply) {
-
+void QTRegister::finished_post_getcode(QNetworkReply* reply) 
+{
     QByteArray bytes = reply->readAll();
-
     QString string;
-
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-
-    qDebug() << "statusCode:" << statusCode;
 
     if (statusCode == 201)
     {
-        qDebug() << "Code apply success!";
         ui.plainTextEdit->appendPlainText("Code apply success!");
     }
     else
     {
-        qDebug() << "Code apply fail!";
-        //  ui.plainTextEdit->appendPlainText("Code apply fail!");
+        ui.plainTextEdit->appendPlainText("Code apply fail!");
     }
 
     if (reply->error() == QNetworkReply::NoError)
@@ -173,15 +166,14 @@ void QTRegister::finished_post_getcode(QNetworkReply* reply) {
 
 int QTRegister::btn_post_edit()
 {
- /*   QtLogin* login1;
-    login1 = new QtLogin;
-    QString Bearer_string = login1->get_id_token();
+    QtLogin* login;
+    login = new QtLogin;
+    QString bearer_string = login->get_id_token();
 
-    qDebug() << Bearer_string;
-    ui.plainTextEdit->appendPlainText(Bearer_string);
+    ui.plainTextEdit->appendPlainText(bearer_string);
     ui.plainTextEdit->appendPlainText("12");
 
-    Bearer_string.prepend("Bearer ");
+    bearer_string.prepend("Bearer ");
 
     QString firstName = ui.lineEdit_firstName->text();
     QString lastName = ui.lineEdit_lastName->text();
@@ -192,46 +184,49 @@ int QTRegister::btn_post_edit()
     QString companyPosition = ui.lineEdit_companyPosition->text();
     QString companyAddress = ui.lineEdit_companyaddress->text();
 
-    QByteArray  m_httpData;
-    QJsonDocument m_httpDocum;
-    QJsonObject _exampleObject;
+    QByteArray  http_data;
+    QJsonDocument http_docum;
+    QJsonObject http_object;
 
-    _exampleObject.insert("firstName", firstName);
-    _exampleObject.insert("lastName", lastName);
-    _exampleObject.insert("gender", gender);
-    _exampleObject.insert("birthday", birthday);
-    _exampleObject.insert("email", email);
-    _exampleObject.insert("companyName", companyName);
-    _exampleObject.insert("companyPosition", companyPosition);
-    _exampleObject.insert("companyAddress", companyAddress);
-    //post请求的数据是Json格式。首先创建QJsonObject对象，并插入数据。
-    m_httpDocum.setObject(_exampleObject);
-    m_httpData = m_httpDocum.toJson(QJsonDocument::Compact);
-    // 转成Json格式
+    http_object.insert("firstName", firstName);
+    http_object.insert("lastName", lastName);
+    if (gender.length())
+    {
+        http_object.insert("gender", gender);
+    }
+    else
+    {
+        http_object.insert("gender", "SECRET");
+    }
+    http_object.insert("gender", gender);
+    http_object.insert("birthday", birthday);
+    http_object.insert("email", email);
+    http_object.insert("companyName", companyName);
+    http_object.insert("companyPosition", companyPosition);
+    http_object.insert("companyAddress", companyAddress);
+
+    http_docum.setObject(http_object);
+    http_data = http_docum.toJson(QJsonDocument::Compact);
+
     QNetworkRequest netReq;
     netReq.setUrl(QUrl("http://192.168.1.254:8080//api/account"));
     netReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    qDebug() << Bearer_string;
-    QByteArray  Bearer_bytes = Bearer_string.toUtf8();
+    QByteArray  Bearer_bytes = bearer_string.toUtf8();
     netReq.setRawHeader("Authorization", Bearer_bytes);//服务器要求的数据头部
 
     // 将用户名和密码发送至web服务器进行验证
-  //      networkAccessManager_post_edit->post(netReq, m_httpData);
-  */
+    manager_post_edit->post(netReq, http_data);
+  
     return 1;
 }
 
-void QTRegister::finished_post_edit(QNetworkReply* reply) {
-
+void QTRegister::finished_post_edit(QNetworkReply* reply)
+{
     QByteArray bytes = reply->readAll();
-
     QString string;
-
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-
     qDebug() << "statusCode:" << statusCode;
-
     if (statusCode == 201)
     {
         qDebug() << "Code apply success!";

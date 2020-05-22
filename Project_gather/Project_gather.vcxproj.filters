@@ -52,6 +52,9 @@
     <ClCompile Include="QtAnt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Qtpower.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Project_gather.h">
@@ -78,6 +81,9 @@
     <QtMoc Include="QtAnt.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Qtpower.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Project_gather.ui">
@@ -102,6 +108,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="QtAnt.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Qtpower.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

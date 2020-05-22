@@ -169,16 +169,6 @@
      <string>指令有效数据</string>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="plainTextEdit_wait_for_run">
-    <property name="geometry">
-     <rect>
-      <x>650</x>
-      <y>60</y>
-      <width>211</width>
-      <height>611</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPlainTextEdit" name="plainTextEdit_reminder">
     <property name="geometry">
      <rect>
@@ -225,7 +215,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>可执行指令列表</string>
+     <string>组帧完指令列表</string>
     </property>
    </widget>
    <widget class="QListWidget" name="listWidget_selectcmd">
@@ -241,7 +231,7 @@
    <widget class="QPushButton" name="btn_buildup">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>600</x>
       <y>220</y>
       <width>31</width>
       <height>23</height>
@@ -258,6 +248,16 @@
       <y>200</y>
       <width>221</width>
       <height>71</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget_build_frame">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>60</y>
+      <width>171</width>
+      <height>611</height>
      </rect>
     </property>
    </widget>
@@ -288,8 +288,8 @@
   <widget class="QPushButton" name="btn_cmd_send">
    <property name="geometry">
     <rect>
-     <x>810</x>
-     <y>760</y>
+     <x>790</x>
+     <y>770</y>
      <width>91</width>
      <height>23</height>
     </rect>
@@ -347,55 +347,59 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_to_tcp">
+  <widget class="QPushButton" name="btn_to_send_Identification">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>660</x>
+     <y>760</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>身份识别</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_bind_station">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>800</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>绑定地面站</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_server">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
      <y>770</y>
      <width>75</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>TCP连接</string>
+    <string>TCP到运控</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="plainTextEdit_reply_telemetry">
+   <property name="geometry">
+    <rect>
+     <x>1220</x>
+     <y>480</y>
+     <width>191</width>
+     <height>371</height>
+    </rect>
    </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections>
-  <connection>
-   <sender>btn_clr_cmd</sender>
-   <signal>clicked()</signal>
-   <receiver>QtCommandtest</receiver>
-   <slot>btn_clr_cmd()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>997</x>
-     <y>768</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>934</x>
-     <y>799</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>btn_to_tcp</sender>
-   <signal>clicked()</signal>
-   <receiver>QtCommandtest</receiver>
-   <slot>btn_to_connect_tcp()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>660</x>
-     <y>782</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>643</x>
-     <y>802</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>btn_test</sender>
    <signal>clicked()</signal>
@@ -418,5 +422,8 @@
   <slot>btn_clr_cmd()</slot>
   <slot>btn_to_connect_tcp()</slot>
   <slot>btn_to_gather()</slot>
+  <slot>tcp_connect_ctl_center_as_client()</slot>
+  <slot>tcp_send_connect_data_to_ctl_center()</slot>
+  <slot>tcp_send_identity_data_to_ctl_center()</slot>
  </slots>
 </ui>

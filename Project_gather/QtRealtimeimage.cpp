@@ -3,7 +3,8 @@
 #include "QtWorkparameter.h"
 
 #include "QtCommandtest.h"
-
+#include "QtWorkparameter.h"
+#include "Project_gather.h"
 /*
 
 #include <shlobj.h> // 可替换为 windows.h
@@ -22,7 +23,6 @@ extern "C"
 QtRealtimeimage::QtRealtimeimage(QWidget *parent)
 	: QWidget(parent)
 {
-
 	float_longitude = 0;
 	float_latitude = 0;
 	ui.setupUi(this);
@@ -31,6 +31,7 @@ QtRealtimeimage::QtRealtimeimage(QWidget *parent)
 	connect(ui.btn_to_west, SIGNAL(clicked()), this, SLOT(btn_to_west()));
 	connect(ui.btn_to_south, SIGNAL(clicked()), this, SLOT(btn_to_south()));
 	connect(ui.btn_to_north, SIGNAL(clicked()), this, SLOT(btn_to_north()));
+	connect(ui.btn_to_gather, SIGNAL(clicked()), this, SLOT(btn_gather()));
 
 }
 
@@ -170,29 +171,9 @@ void QtRealtimeimage::btn_to_north()
 
 }
 
-/*
-void QtRealtimeimage::btn_to_ffpmeg()
+void QtRealtimeimage::btn_gather()
 {
-	qDebug() << avcodec_version();
-
-	char lpCmdLine[200];
-
-	string srcFileName = "D:\\VS_QT\\picture\\00%d.jpg";
-	string destFileName = "D:\\tx\\new\\tt.mp4";
-
-	string strFfmpegPath = "D:\\tx\\new\\ffmpeg";  //ffmpeg.exe所在的位置的完整路径
-
-
-
-	sprintf(lpCmdLine, "%s -f image2 -r 0.5 -i %s -vcodec libx264  %s", strFfmpegPath, srcFileName, destFileName);
-
-	//string lpCmdLine = "D:\tx\new\ffmpeg -f image2 -r 0.5 -i D:\VS_QT\picture\00%d.jpg  -vcodec libx264 -r 1  tt.mp4";
-//	WinExec(lpCmdLine, SW_SHOW);
-
-
-	system("del  D:\\tx\\new\\tt.mp4");
-
-	WinExec("D:\\tx\\new\\ffmpeg -f image2 -r 0.5 -i D:\\VS_QT\\picture\\00%d.jpg  -vcodec libx264 -r 1  D:\\tx\\new\\tt.mp4", SW_SHOWMAXIMIZED);
-
+	Project_gather* Project_login = new Project_gather;
+	Project_login->show();
+	this->hide();
 }
-*/

@@ -59,7 +59,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <AdditionalIncludeDirectories>D:\VS_QT\project_gather\Project_gather\x64\Debug\uic;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\VS_QT\project_gather\Project_gather\x64\Debug\uic;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -76,7 +76,7 @@
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <AdditionalIncludeDirectories>include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -93,6 +93,7 @@
     <ClCompile Include="QtAnt.cpp" />
     <ClCompile Include="QtCommandtest.cpp" />
     <ClCompile Include="QtLogin.cpp" />
+    <ClCompile Include="Qtpower.cpp" />
     <ClCompile Include="QtRealtimeimage.cpp" />
     <ClCompile Include="QTRegister.cpp" />
     <ClCompile Include="Qttimedimage.cpp" />
@@ -106,6 +107,7 @@
     <QtUic Include="QtAnt.ui" />
     <QtUic Include="QtCommandtest.ui" />
     <QtUic Include="QtLogin.ui" />
+    <QtUic Include="Qtpower.ui" />
     <QtUic Include="QtRealtimeimage.ui" />
     <QtUic Include="QTRegister.ui" />
     <QtUic Include="Qttimedimage.ui" />
@@ -134,6 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="QtAnt.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Qtpower.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

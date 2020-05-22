@@ -49,7 +49,7 @@
   <widget class="QPushButton" name="btn_to_getcode">
    <property name="geometry">
     <rect>
-     <x>500</x>
+     <x>480</x>
      <y>220</y>
      <width>75</width>
      <height>23</height>
@@ -72,7 +72,7 @@
     <string>*</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_register">
+  <widget class="QPushButton" name="btn_to_register">
    <property name="geometry">
     <rect>
      <x>310</x>

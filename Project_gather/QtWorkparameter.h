@@ -54,7 +54,7 @@ private slots:
 	void btn_to_timed_image();
 
 	void btn_get_time();
-//	void finished_post_task_plan(QNetworkReply*);
+
 	void finished_get_time(QNetworkReply*);
 
 	void btn_post_author_code();
@@ -62,20 +62,6 @@ private slots:
 
 	quint8 tcp_readserver_data();
 	void tcp_connected_success();
-
-	void json_test();
-
-	//void date_time_set();
-	//void date_time_get();
-
-	void tcp_to_yunkong_as_client();
-
-	void tcp_connected_yunkong_success();
-	void ground_ctl_tcp_readserver_data();
-
-	void tcp_send_identity_data_to_ground_ctl();
-
-	void tcp_send_connect_data_to_ground_ctl();
 
 	void btn_tcp_to_ground_as_station_ctl();
 

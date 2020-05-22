@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>QtLogin</string>
   </property>
-  <widget class="QPushButton" name="btn_to_status">
+  <widget class="QPushButton" name="btn_to_status_show">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -127,19 +127,6 @@
     <string>反馈信息</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="btn_to_taskset">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>220</y>
-     <width>81</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>任务设置</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btn_to_imagetask">
    <property name="geometry">
     <rect>
@@ -179,9 +166,9 @@
   <widget class="QPushButton" name="btn_to_get_id">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>390</y>
-     <width>75</width>
+     <x>380</x>
+     <y>420</y>
+     <width>71</width>
      <height>23</height>
     </rect>
    </property>
@@ -192,8 +179,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>400</y>
+     <x>380</x>
+     <y>370</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -205,24 +192,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>QtLogin</receiver>
-   <slot>btn_post_regiser_dev()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>431</x>
-     <y>419</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>426</x>
-     <y>436</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>on_btn_login_send_clicked()</slot>
   <slot>on_btn_register_clicked()</slot>
@@ -233,5 +203,6 @@
   <slot>btn_to_register()</slot>
   <slot>btn_post_regiser_dev()</slot>
   <slot>get_local_ip()</slot>
+  <slot>get_local_mac()</slot>
  </slots>
 </ui>

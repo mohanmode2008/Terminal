@@ -26,11 +26,11 @@
     <string>图像播放窗口</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btn_to_read_data">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>370</y>
+     <y>390</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -194,7 +194,7 @@
     <rect>
      <x>450</x>
      <y>330</y>
-     <width>301</width>
+     <width>371</width>
      <height>181</height>
     </rect>
    </property>
@@ -206,7 +206,7 @@
      <rect>
       <x>20</x>
       <y>20</y>
-      <width>271</width>
+      <width>331</width>
       <height>151</height>
      </rect>
     </property>
@@ -259,6 +259,42 @@
    </property>
    <property name="text">
     <string>电源</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_connect_data_tran">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>340</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>连接数传</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="plainTextEdit">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>60</y>
+     <width>341</width>
+     <height>241</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_project_gather">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>580</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>返回开始</string>
    </property>
   </widget>
  </widget>

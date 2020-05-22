@@ -26,6 +26,14 @@ QtAnt::QtAnt(QWidget *parent)
     connect(ui.btn_inquire_ant, SIGNAL(clicked()), this, SLOT(btn_to_inquire_ant()));
     connect(ui.btn_inquire_gps, SIGNAL(clicked()), this, SLOT(btn_to_inquire_gps()));
     connect(ui.btn_connect_tcp, SIGNAL(clicked()), this, SLOT(btn_to_connect_ant()));
+    connect(ui.btn_to_set_rev, SIGNAL(clicked()), this, SLOT(btn_set_rev_ant_data()));  
+
+    connect(ui.btn_to_init_timer, SIGNAL(clicked()), this, SLOT(init_timer()));
+    
+
+    Project_gather* project_gather = new Project_gather;
+
+    tcp_to_ant_handle = project_gather->get_ant_handle();
 
 }
 
@@ -47,7 +55,7 @@ void QtAnt::btn_to_reset()
     char* ch;
     QByteArray ba = reset.toLatin1();
     ch = ba.data();
-    m_tcpClient->write((char*)ch, reset.size());
+    tcp_to_ant_handle->write((char*)ch, reset.size());
 }
 
 void QtAnt::btn_to_set_angle()
@@ -60,7 +68,7 @@ void QtAnt::btn_to_set_angle()
     char* ch;
     QByteArray ba = set_angle.toLatin1();
     ch = ba.data();
-    m_tcpClient->write((char*)ch, set_angle.size());
+    tcp_to_ant_handle->write((char*)ch, set_angle.size());
     qDebug() << set_angle;
 }
 
@@ -75,7 +83,7 @@ void QtAnt::btn_to_set_speed()
     char* ch;
     QByteArray ba = set_speed.toLatin1();
     ch = ba.data();
-    m_tcpClient->write((char*)ch, set_speed.size());
+    tcp_to_ant_handle->write((char*)ch, set_speed.size());
     qDebug() << set_speed;
 }
 
@@ -86,7 +94,7 @@ void QtAnt::btn_to_stop_ant()
     char* ch;
     QByteArray ba = stop_ant.toLatin1();
     ch = ba.data();
-    m_tcpClient->write((char*)ch, stop_ant.size());
+    tcp_to_ant_handle->write((char*)ch, stop_ant.size());
 
     qDebug() << stop_ant;
 }
@@ -98,7 +106,7 @@ void QtAnt::btn_to_decide_ant_direction()
     char* ch;
     QByteArray ba = decide_ant_direction.toLatin1();
     ch = ba.data();
-    m_tcpClient->write((char*)ch, decide_ant_direction.size());
+    tcp_to_ant_handle->write((char*)ch, decide_ant_direction.size());
     qDebug() << decide_ant_direction;
 }
 
@@ -109,7 +117,7 @@ void QtAnt::btn_to_decide_ant_pitch()
     char* ch;
     QByteArray ba = decide_ant_pitch.toLatin1();
     ch = ba.data();
-    m_tcpClient->write((char*)ch, decide_ant_pitch.size());
+    tcp_to_ant_handle->write((char*)ch, decide_ant_pitch.size());
     qDebug() << decide_ant_pitch;
 }
 
@@ -120,7 +128,7 @@ void QtAnt::btn_to_inquire_ant()
     char* ch;
     QByteArray ba = inquire_ant.toLatin1();
     ch = ba.data();
-    m_tcpClient->write((char*)ch, inquire_ant.size());
+    tcp_to_ant_handle->write((char*)ch, inquire_ant.size());
     qDebug() << inquire_ant;
 }
 
@@ -131,54 +139,17 @@ void QtAnt::btn_to_inquire_gps()
     char* ch;
     QByteArray ba = inquire_gps.toLatin1();
     ch = ba.data();
-    m_tcpClient->write((char*)ch, inquire_gps.size());
+    tcp_to_ant_handle->write((char*)ch, inquire_gps.size());
     qDebug() << inquire_gps;
 }
 
-void  QtAnt::btn_to_connect_ant()
+void QtAnt::btn_set_rev_ant_data()
 {
-    m_tcpClient = new QTcpSocket(this);
-
-    QString line_ip = ui.line_ip->text();
-    QString line_port = ui.line_port->text();
-  //  int num = line_port.toInt();
-
-
-    QFile file("d:/test.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qDebug() << "Can't open the file!" << endl;
-    }
-    int i = 0;
-    while (!file.atEnd()) {
-        QByteArray line = file.readLine();
-        QString str(line);
-        if (i == 0)
-        {
-            line_ip = str;
-            i++;
-        }
-        else
-        {
-            line_port = str;
-        }
-        qDebug() << str;
-    }
-    int num = line_port.toInt();
-    m_tcpClient->connectToHost(line_ip, num);
-
-    connect(m_tcpClient, SIGNAL(connected()), this, SLOT(connected_success()));
-    connect(m_tcpClient, SIGNAL(readyRead()), this, SLOT(readserver_data()));
+    connect(tcp_to_ant_handle, SIGNAL(readyRead()), this, SLOT(read_ant_data()));
 }
-
-void  QtAnt::connected_success()
+void  QtAnt::read_ant_data()
 {
-    ui.plainTextEdit->appendPlainText("连接服务器成功");
-}
-
-void  QtAnt::readserver_data()
-{
-    QByteArray temp = m_tcpClient->readAll();
+    QByteArray temp = tcp_to_ant_handle->readAll();
     QString answer = temp;
     int val;
     QString ant_state_ans;
@@ -291,24 +262,23 @@ void  QtAnt::readserver_data()
     */
 }
 
-void QtAnt::InitTimer()
+void QtAnt::init_timer()
 {
-     m_timer = new QTimer;
-    //设置定时器是否为单次触发。默认为 false 多次触发
-    m_timer->setSingleShot(false);
-    //启动或重启定时器, 并设置定时器时间：毫秒
-    m_timer->start(1000);
-    //定时器触发信号槽
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(TimerTimeOut()));
+    timer = new QTimer;
+
+    timer->setSingleShot(false);
+
+    timer->start(1000);
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(timer_time_out()));
 }
 
-void QtAnt::TimerTimeOut()
+void QtAnt::timer_time_out()
 {
     qDebug() << "TimerTimeOut";
     //判断定时器是否运行
    // if (m_timer->isActive())
     //   m_timer->stop();   //停止定时器
     //执行定时器触发时需要处理的业务
-
-
+    btn_to_reset();
 }

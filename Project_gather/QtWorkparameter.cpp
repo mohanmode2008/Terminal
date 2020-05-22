@@ -1,22 +1,14 @@
 ﻿#include "QtWorkparameter.h"
-
 #include "Project_gather.h"
-
 #include <QDateEdit>
-
 #include "Qttimedimage.h"
 #include "QtRealtimeimage.h"
-
 #include "QtCommandtest.h"
-
 #include <QFile> 
-
 #include "QtLogin.h"
 
 #pragma execution_character_set("utf-8")
 #pragma pack (1)
-
-
 
 QtWorkparameter::QtWorkparameter(QWidget *parent)
 	: QWidget(parent)
@@ -30,7 +22,7 @@ QtWorkparameter::QtWorkparameter(QWidget *parent)
 	ui.edit_cmdstarttime->setDisplayFormat("yyyy-MM-dd hh:mm:ss");
 	dateTimeEdit->setDateTime(QDateTime::currentDateTime().addDays(0));
 
-	 dateTimeEdit = ui.edit_cmdendtime;
+	dateTimeEdit = ui.edit_cmdendtime;
 	ui.edit_cmdendtime->setDisplayFormat("yyyy-MM-dd hh:mm:ss");
 	dateTimeEdit->setDateTime(QDateTime::currentDateTime().addDays(0));
 
@@ -38,7 +30,7 @@ QtWorkparameter::QtWorkparameter(QWidget *parent)
 	ui.edit_usestarttime->setDisplayFormat("yyyy-MM-dd hh:mm:ss");
 	dateTimeEdit->setDateTime(QDateTime::currentDateTime().addDays(0));
 
-	 dateTimeEdit = ui.edit_useendtime;
+	dateTimeEdit = ui.edit_useendtime;
 	ui.edit_useendtime->setDisplayFormat("yyyy-MM-dd hh:mm:ss");
 	dateTimeEdit->setDateTime(QDateTime::currentDateTime().addDays(0));
 
@@ -129,10 +121,6 @@ QtWorkparameter::QtWorkparameter(QWidget *parent)
 	m_tcpClient = new QTcpSocket(this);
 	connect(m_tcpClient, SIGNAL(connected()), this, SLOT(tcp_connected_success()));
 	connect(m_tcpClient, SIGNAL(readyRead()), this, SLOT(tcp_readserver_data()));
-
-	connect(ui.btn_to_ground_ctl, SIGNAL(clicked()), this, SLOT(tcp_to_yunkong_as_client()));
-
-//	m_tcpClient->connectToHost("192.168.0.103", 10086);
 }
 
 QtWorkparameter::~QtWorkparameter()
@@ -194,14 +182,14 @@ void QtWorkparameter::btn_get_time()
 	if (!token.isEmpty()) {
 		netReq.setRawHeader("authorization", token.toStdString().c_str());
 	}
-	netReq.setUrl(QUrl("http://192.168.1.254:8080/api/register"));
+	netReq.setUrl(QUrl("http://192.168.1.254:8080/api/satellite/job/plan"));
 	netReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
 	manager_post_task_program->post(netReq, m_httpData);
 
 }
 
-QString stationId;
+static QString stationId;
 void QtWorkparameter::finished_get_time(QNetworkReply* reply)
 {
 	QByteArray bytes = reply->readAll();
@@ -210,7 +198,7 @@ void QtWorkparameter::finished_get_time(QNetworkReply* reply)
 	if (json_error.error != QJsonParseError::NoError)
 	{
 		qDebug() << "json error!";
-		exit(1);
+	//	exit(1);
 	}
 	if (jsonDoc.isArray())
 	{
@@ -340,7 +328,7 @@ void QtWorkparameter::btn_post_author_code()
 	if (!token.isEmpty()) {
 		netReq.setRawHeader("authorization", token.toStdString().c_str());
 	}
-	netReq.setUrl(QUrl("http://192.168.1.254:8080/api/register"));
+	netReq.setUrl(QUrl("http://192.168.1.254:8080/api/satellite/jobs"));
 	netReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
 	qDebug() << "btn_post_task_plan";
@@ -397,13 +385,13 @@ void QtWorkparameter::btn_post_author_code()
 	quint32 cmdstarttime = cmd_start_time->dateTime().toTime_t();
 	cmdstarttime -= nSeconds;
 	qDebug() << cmdstarttime;
-	cmdstarttime = QtCommandtest_work.byteOrderChange32Bit(&cmdstarttime);
+	cmdstarttime = qToBigEndian(cmdstarttime);
 	memcpy(&data_to_send[48], &cmdstarttime, 4);
 //	qint32  cmdendtime = (ui.edit_cmdendtime->text()).toInt();
 	QDateTimeEdit* cmd_end_time = ui.edit_cmdendtime;
 	quint32 cmdendtime = cmd_end_time->dateTime().toTime_t();
 	cmdendtime -= nSeconds;
-	cmdendtime = QtCommandtest_work.byteOrderChange32Bit(&cmdendtime);
+	cmdendtime = qToBigEndian(cmdendtime);
 	memcpy(&data_to_send[52],&cmdendtime, 4);
 	memcpy(&data_to_send[56], &(ui.comboBox_transfer_rate->currentData()), 1);
 	memcpy(&data_to_send[57], &(ui.comboBox_instruction_conversion->currentData()), 1);
@@ -413,13 +401,13 @@ void QtWorkparameter::btn_post_author_code()
 	QDateTimeEdit* use_start_time = ui.edit_usestarttime;
 	quint32 usestarttime = use_start_time->dateTime().toTime_t();
 	usestarttime -= nSeconds;
-	usestarttime = QtCommandtest_work.byteOrderChange32Bit(&usestarttime);
+	usestarttime = qToBigEndian(usestarttime);
 	memcpy(&data_to_send[59], &usestarttime, 4);
 //	qint32  useendtime = (ui.edit_useendtime->text()).toInt();
 	QDateTimeEdit* use_end_time = ui.edit_useendtime;
 	quint32 useendtime = use_end_time->dateTime().toTime_t();
 	useendtime -= nSeconds;
-	useendtime = QtCommandtest_work.byteOrderChange32Bit(&useendtime);
+	useendtime = qToBigEndian(useendtime);
 	memcpy(&data_to_send[63], &useendtime, 4);
 	memset(&data_to_send[67], 2, 1);
 	memset(&data_to_send[68], 0, 4);
@@ -519,63 +507,6 @@ uchar*  QtWorkparameter::valid_data_to_send_data()
 	return valid_data_to_send;
 }
 
-void QtWorkparameter::json_test()
-{
-	QFile file( "D:/VS_QT/test.json");
-	if (!file.open(QIODevice::ReadWrite)) {
-		qDebug() << "文件打开失败!\n";
-		exit(1);
-	}
-	qDebug() << "文件打开成功\n";
-
-	QJsonParseError jsonParserError;
-	QJsonDocument   jsonDocument =	QJsonDocument::fromJson(file.readAll(), &jsonParserError);
-
-	if (!jsonDocument.isNull() &&jsonParserError.error == QJsonParseError::NoError)
-	{
-		qDebug() << "文件解析成功\n";
-/*		if (jsonDocument.isObject())
-		{
-			QJsonObject jsonObject = jsonDocument.object();
-			
-				qDebug() << "id is " << jsonObject.value("id").toString().toInt()
-					<< "\n";
-				qDebug() << "satelliteId is " << jsonObject.value("satelliteId").toString().toInt()
-					<< "\n";
-				qDebug() << "userId is " << jsonObject.value("userId").toString().toInt()
-					<< "\n";
-				qDebug() << "commSyncWord is " << jsonObject.value("commSyncWord").toString().toInt()
-					<< "\n";
-				qDebug() << "authCode is " << jsonObject.value("authCode").toString().toInt()
-					<< "\n";
-		}
-		*/
-
-		if (jsonDocument.isArray())
-		{ 
-			QJsonArray array = jsonDocument.array();  // 转数组 
-			int nSize = array.size();
-			for (int i = 0; i < nSize; ++i)
-			{
-				qDebug() << array.at(i).toObject().value("satelliteId").toString();
-				qDebug() << array.at(i).toObject().value("stationId").toString();
-				qDebug() << array.at(i).toObject().value("commSyncWord").toString();
-				if (array.at(i).toObject().value("period").isObject())
-				{						
-					QJsonObject jsonObject = array.at(i).toObject().value("period").toObject();
-					qDebug() << "start is " << jsonObject.value("start").toString().toInt();
-					qDebug() << "end is " << jsonObject.value("end").toString().toInt();
-				}
-
-			}
-		}
-
-	}
-
-	file.close();
-	qDebug() << "按任意键退出程序\n";
-}
-
 QString QtWorkparameter::time_charge(quint64 sec)
 {
 	QDateTime origin_time = QDateTime::fromString("1970-01-01 08:00:00", "yyyy-MM-dd hh:mm:ss");
@@ -599,31 +530,6 @@ QString QtWorkparameter::time_charge(quint64 sec)
 	return str;
 }
 
-/*
-
-void QtWorkparameter::date_time_set()
-{
-	QDateTimeEdit* dateTimeEdit = ui.dateTimeEdit;
-
-	//dateTimeEdit->setDisplayFormat("yyyy-MM-dd HH:mm:ss");
-
-	ui.dateTimeEdit->setDisplayFormat("yyyy-MM-dd hh:mm:ss");
-
-	dateTimeEdit->setDateTime(QDateTime::currentDateTime().addDays(-1));
-
-}
-
-void QtWorkparameter::date_time_get()
-{
-	QDateTimeEdit* dateTimeEdit_start = ui.dateTimeEdit;
-	int dateTime_start = dateTimeEdit_start->dateTime().toTime_t();
-
-	qDebug() << dateTime_start;
-
-}
-
-*/
-
 qint64 QtWorkparameter::get_second_2010_to_1970()
 {
 	QDateTime origin_time = QDateTime::fromString("1970-01-01 08:00:00", "yyyy-MM-dd hh:mm:ss");
@@ -631,81 +537,6 @@ qint64 QtWorkparameter::get_second_2010_to_1970()
 	QDateTime begin_time = QDateTime::fromString(begin, "yyyy-MM-dd hh:mm:ss");
 	qint64 nSeconds = origin_time.secsTo(begin_time);
 	return nSeconds;
-}
-
-void QtWorkparameter::tcp_to_yunkong_as_client()
-{
-	tcp_to_ground_ctl = new QTcpSocket(this);
-	tcp_to_ground_ctl->connectToHost("192.168.1.254", 6666);
-
-	connect(tcp_to_ground_ctl, SIGNAL(connected()), this, SLOT(tcp_connected_yunkong_success()));
-	connect(tcp_to_ground_ctl, SIGNAL(readyRead()), this, SLOT(ground_ctl_tcp_readserver_data()));
-}
-
-void QtWorkparameter::tcp_connected_yunkong_success()
-{
-	ui.plainTextEdit->appendPlainText("连接服务器成功");
-
-
-	connect(ui.btn_to_Identification, SIGNAL(clicked()), this, SLOT(tcp_send_identity_data_to_ground_ctl()));
-
-}
-
-static qint8 send_data_to_station_switch = 0;
-void QtWorkparameter::ground_ctl_tcp_readserver_data()
-{
-	QByteArray temp = m_tcpClient->readAll();
-
-	QString rev_data = temp;
-
-	static int hsok_num = 0;
-
-	if (rev_data.compare("auth_ok"))
-	{		
-		ui.plainTextEdit->appendPlainText("身份合法！");
-	}
-	else if(rev_data.compare("auth_fail"))
-	{
-		ui.plainTextEdit->appendPlainText("数据错误！");
-	}
-	else if(rev_data.compare("connect_ok"))
-	{
-		ui.plainTextEdit->appendPlainText("绑定地面站完成");
-		send_data_to_station_switch = 1;
-	}
-	else if (rev_data.compare("connect_fail"))
-	{
-		ui.plainTextEdit->appendPlainText("绑定地面站失败");
-	}
-	else
-	{
-		ui.plainTextEdit->appendPlainText("返回错误数据");
-	}
-}
-
-void QtWorkparameter::tcp_send_identity_data_to_ground_ctl()
-{
-	quint8* data_to_send;
-	data_to_send = new quint8(16);
-
-	QString msg_type;
-	msg_type = "hshs";
-	memcpy(data_to_send, "hshs", 4);
-	memcpy(data_to_send+4, "0000", 4);
-	memcpy(data_to_send + 8, "0023", 4);
-	memcpy(data_to_send + 12, "a0a0", 4);
-	tcp_to_ground_ctl->write((char*)data_to_send, 16);
-}
-
-void QtWorkparameter::tcp_send_connect_data_to_ground_ctl()
-{
-	quint8* data_to_send;
-
-	data_to_send = new quint8(8 + stationId.size());
-
-	memcpy(data_to_send, "connect_", 8);
-	memcpy(data_to_send + 8, &stationId, stationId.size());
-	tcp_to_ground_ctl->write((char*)data_to_send, 8 + stationId.size());
 }
 
 void QtWorkparameter::btn_tcp_to_ground_as_station_ctl()

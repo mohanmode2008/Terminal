@@ -16,7 +16,7 @@ public slots:
 	void btn_to_west();
 	void btn_to_south();
 	void btn_to_north();
-//	void btn_to_ffpmeg();
+	void btn_gather();
 
 private:
 	Ui::QtRealtimeimage ui;

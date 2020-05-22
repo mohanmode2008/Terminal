@@ -22,9 +22,9 @@ private:
 	QTRegister* register1;
 
 	QNetworkRequest netReq;
-	QNetworkAccessManager* networkAccessManager_post_register;
-	QNetworkAccessManager* networkAccessManager_post_code;
-	QNetworkAccessManager* networkAccessManager_post_edit;
+	QNetworkAccessManager* manager_post_code;
+	QNetworkAccessManager* manager_post_register;
+	QNetworkAccessManager* manager_post_edit;
 
 	qint8 return_post_state;
 
@@ -36,8 +36,7 @@ public slots:
 	int btn_post_getcode();
 	void finished_post_getcode(QNetworkReply*);
 
-	//void turn_verification();
-	void btn_to_login();
+	void btn_login();
 
 	int btn_post_edit();
 	void finished_post_edit(QNetworkReply*);

@@ -17,9 +17,9 @@ public:
 private:
 	Ui::QtAnt ui;
 
-	QTcpSocket* m_tcpClient;
+	QTcpSocket* tcp_to_ant_handle;;
 
-	QTimer* m_timer;
+	QTimer* timer;
 	
 
 public slots:
@@ -33,10 +33,9 @@ public slots:
 	void btn_to_inquire_ant();
 	void btn_to_inquire_gps();
 
-	void btn_to_connect_ant();
-	void connected_success();
-	void readserver_data();
+	void init_timer();
+	void timer_time_out();
 
-	void TimerTimeOut();
-	void InitTimer();
+	void btn_set_rev_ant_data();
+	void read_ant_data();
 };

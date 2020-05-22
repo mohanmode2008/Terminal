@@ -271,7 +271,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="btn_to_init_timer">
    <property name="geometry">
     <rect>
      <x>380</x>
@@ -330,6 +330,19 @@
     <string>PORT</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_to_set_rev">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>360</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>设置接收</string>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
@@ -347,22 +360,6 @@
     <hint type="destinationlabel">
      <x>46</x>
      <y>111</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton_2</sender>
-   <signal>clicked()</signal>
-   <receiver>QtAnt</receiver>
-   <slot>InitTimer()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>328</x>
-     <y>456</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>325</x>
-     <y>484</y>
     </hint>
    </hints>
   </connection>
