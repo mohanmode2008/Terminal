@@ -150,9 +150,9 @@ public slots:
 	void trigerMenu(QAction* act);
 
 	void btn_to_gather();
-	void btn_clr_cmd();
+	void btn_clr_cmd_build_frame();
 	void btn_list_to_selectlist();
-	void btn_to_del_select();
+	void btn_to_del_select_selectcmd();
 	void btn_to_buildup_validdata();
 	qint8 btn_to_send_cmd();
 
@@ -189,6 +189,7 @@ private:
 	QString select_in_frame_list;
 
 	int row_in_cmd;
+	int row_in_build_frame;
 	QMap<QString, int> map_name_to_code;
 
 	QMap<QString, int> map_name_to_validdatalength;

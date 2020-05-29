@@ -86,7 +86,7 @@ QtCommandtest::QtCommandtest(QWidget *parent)
 
     connect(menuBar, SIGNAL(triggered(QAction*)), this, SLOT(trigerMenu(QAction*)));
     connect(ui.btn_to_selectlist, SIGNAL(clicked()), this, SLOT(btn_list_to_selectlist()));
-    connect(ui.btn_to_del_cmd, SIGNAL(clicked()), this, SLOT(btn_to_del_select()));
+    connect(ui.btn_to_del_cmd, SIGNAL(clicked()), this, SLOT(btn_to_del_select_selectcmd()));
     connect(ui.btn_buildup, SIGNAL(clicked()), this, SLOT(btn_to_buildup_validdata()));
     connect(ui.listWidget, SIGNAL(itemSelectionChanged()), this, SLOT(select_in_list_list()));
     connect(ui.listWidget_selectcmd, SIGNAL(itemSelectionChanged()), this, SLOT(select_in_list_select()));
@@ -95,7 +95,7 @@ QtCommandtest::QtCommandtest(QWidget *parent)
 
   //  connect(ui.btn_to_Identification, SIGNAL(clicked()), this, SLOT(tcp_send_identity_data_to_ground_station()));
   //  connect(ui.btn_to_station, SIGNAL(clicked()), this, SLOT(tcp_send_connect_data_to_ground_station()));
-    connect(ui.btn_clr_cmd, SIGNAL(clicked()), this, SLOT(btn_clr_cmd()));
+    connect(ui.btn_clr_cmd, SIGNAL(clicked()), this, SLOT(btn_clr_cmd_build_frame()));
     connect(ui.btn_to_server, SIGNAL(clicked()), this, SLOT(tcp_connect_server_as_client()));
     connect(ui.btn_to_send_Identification, SIGNAL(clicked()), this, SLOT(tcp_send_identity_data_to_ctl_center()));
     connect(ui.btn_to_bind_station, SIGNAL(clicked()), this, SLOT(tcp_send_connect_data_to_ctl_center()));
@@ -674,6 +674,9 @@ void QtCommandtest::select_in_list_frame()
 {
     QListWidgetItem* aa = ui.listWidget_build_frame->currentItem();
     select_in_frame_list = aa->text();
+
+    row_in_build_frame = ui.listWidget_build_frame->currentRow();//当前行
+
 }
 
 void QtCommandtest::btn_list_to_selectlist()
@@ -6814,7 +6817,7 @@ qint8 QtCommandtest::select_in_list_select()
 
 }
 
-void QtCommandtest::btn_to_del_select()
+void QtCommandtest::btn_to_del_select_selectcmd()
 {
     qDebug() << "btn_to_del_select";
     if (row_in_cmd > 0)
@@ -8272,9 +8275,9 @@ QString QtCommandtest::analyze_data_compose_unit_camera_parameters_penetrate_tel
     return "解析 数据压缩处理单元相机参数透传应答遥测 成功！";
 }
 
-void QtCommandtest::btn_clr_cmd()
+void QtCommandtest::btn_clr_cmd_build_frame()
 {
-    QString valid_data = ui.textEdit_validdata->toPlainText();
+  /*  QString valid_data = ui.textEdit_validdata->toPlainText();
     quint8 validdata_length_in_text = valid_data.length();
     quint8* valid_data_int;
     valid_data_int = new quint8[8];
@@ -8288,6 +8291,19 @@ void QtCommandtest::btn_clr_cmd()
         valid_data_int[j] = valid_data_byte.toInt();
         qDebug() << valid_data_int[j];
     } 
+    */
+    qDebug() << "btn_clr_cmd_build_frame";
+    if (row_in_build_frame > 0)
+    {
+        QListWidgetItem* aItem = ui.listWidget_selectcmd->takeItem(row_in_build_frame); //移除指定行的项，但不delete
+        delete aItem; //需要手工删除对象
+        send_data_build_frame.remove(select_in_frame_list);
+        send_data_len_build_frame.remove(select_in_frame_list);
+    }
+    else
+    {
+        qDebug() << "no_del_select in_build_frame";
+    }
 }
 
 void QtCommandtest::btn_to_connect_tcp()

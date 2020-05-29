@@ -7,6 +7,10 @@
 #include "QTLogin.h"
 #include "Qtpower.h"
 
+//引入qt中串口通信需要的头文件
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
+
 
 class Project_gather : public QMainWindow
 {
@@ -44,7 +48,33 @@ private slots:
 	void btn_connect_ant();
 	void connected_ant_success();
 
+	void check_box_1_status_change(int);
+	void check_box_2_status_change(int);
+	void check_box_3_status_change(int);
+
+	void btn_read_cardnumber();
+	void btn_read_signalstate();
+	void btn_read_locationdata();
+	void btn_send_msgdata();
+	void btn_get_local_time();
+	void serial_Read_from_beidou();
+	void btn_open_serial();
+
 private:
 	Ui::Project_gatherClass ui;
 	QtLogin* login;	
+
+	quint8 select_wire;
+	quint8 select_wireless;
+	quint8 select_shortmessage;
+
+	QSerialPort* serial;//全局的串口对象
+
+	void analyze_card_ID(QByteArray buffer);
+	void analyze_signal_state(QByteArray buffer);
+	void analyze_locationdata(QByteArray buffer);	
+	void analyze_msgdata(QByteArray buffer);
+	void analyze_local_time(QByteArray buffer);
+	
+	
 };

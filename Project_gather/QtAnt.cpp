@@ -9,6 +9,7 @@ QtAnt::QtAnt(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+    tcp_to_ground_detect_handle = nullptr;
 
     QMap<QString, QString> ant_axis;
     ant_axis.insert("天线方位轴", "1");
@@ -28,12 +29,28 @@ QtAnt::QtAnt(QWidget *parent)
     connect(ui.btn_connect_tcp, SIGNAL(clicked()), this, SLOT(btn_to_connect_ant()));
     connect(ui.btn_to_set_rev, SIGNAL(clicked()), this, SLOT(btn_set_rev_ant_data()));  
 
-    connect(ui.btn_to_init_timer, SIGNAL(clicked()), this, SLOT(init_timer()));
+    connect(ui.btn_to_rev_data_tran, SIGNAL(clicked()), this, SLOT(btn_set_ground_detect_rev()));
     
+
+    connect(ui.btn_to_init_timer, SIGNAL(clicked()), this, SLOT(init_timer()));    
 
     Project_gather* project_gather = new Project_gather;
 
     tcp_to_ant_handle = project_gather->get_ant_handle();
+
+    tcp_to_ground_detect_handle = project_gather->get_ground_detect_handle();
+
+    QMap<QString, int> set_type;
+    set_type.insert("射频设置", 0x01);
+    set_type.insert("速率设置", 0x02);
+    set_type.insert("解调参数", 0x03);
+    set_type.insert("帧设置", 0x04);
+    set_type.insert("解扰", 0x05);
+    set_type.insert("接收", 0x06);
+    set_type.insert("保存文件", 0x07);
+    ui.comboBox->clear();
+    foreach(const QString & str, set_type.keys())
+        ui.comboBox->addItem(str, set_type.value(str));
 
 }
 
@@ -147,7 +164,8 @@ void QtAnt::btn_set_rev_ant_data()
 {
     connect(tcp_to_ant_handle, SIGNAL(readyRead()), this, SLOT(read_ant_data()));
 }
-void  QtAnt::read_ant_data()
+
+void QtAnt::read_ant_data()
 {
     QByteArray temp = tcp_to_ant_handle->readAll();
     QString answer = temp;
@@ -281,4 +299,168 @@ void QtAnt::timer_time_out()
     //   m_timer->stop();   //停止定时器
     //执行定时器触发时需要处理的业务
     btn_to_reset();
+}
+
+void QtAnt::btn_set_param_format_to_data_server()
+{
+    char* send_data;
+    int data_len;
+    qint8 set_type;
+    quint8 check_sum;
+     if (ui.comboBox->currentData() == 0x04)
+    {
+         send_data = new char[15];
+         data_len = 9;
+         memset(send_data + 10, ui.frame_len->text().toInt(), 4);
+    }
+    else
+    {
+         send_data = new char[11];
+         data_len = 5;
+    }
+     memset(send_data, 0XEB90,2);
+     memset(send_data + 2, 0X02, 1);
+     memset(send_data + 3, data_len, 2);
+     set_type = (ui.comboBox->currentData().toString()).toInt();
+     memset(send_data + 5, set_type, 1);
+     memset(send_data + 6, ui.lineEdit->text().toInt(), 4);
+
+
+     check_sum = check_sum1((quint8*)&send_data, data_len);
+
+     if (ui.comboBox->currentData() == 0x04)
+     {
+         memset(send_data + 14, check_sum, 1);
+     }
+     else
+     {
+         memset(send_data + 10, check_sum, 1);
+     }
+    if (tcp_to_ground_detect_handle)
+    {
+        if(data_len == 9)
+        tcp_to_ground_detect_handle->write((char*)send_data, 15);//发送到串口
+        else
+        tcp_to_ground_detect_handle->write((char*)send_data, 11);//发送到串口
+        ui.plainTextEdit->setPlainText("发送设置参数命令成功");
+    }
+    else
+    {
+        ui.plainTextEdit->setPlainText("句柄读取失败");
+    }   
+}
+
+void QtAnt::btn_set_ground_detect_rev()
+{
+    if (tcp_to_ground_detect_handle !=nullptr)
+    {
+        connect(tcp_to_ground_detect_handle, SIGNAL(readyRead()), this, SLOT(tcp_rev_data_from_ground_detect()));
+        ui.plainTextEdit->setPlainText("设置读取ground_detect_rev成功！");
+    }
+    else
+    {
+        ui.plainTextEdit->setPlainText("地检句柄为NULL！");
+    } 
+}
+
+void QtAnt::tcp_rev_data_from_ground_detect()
+{
+    QByteArray temp = tcp_to_ground_detect_handle->readAll();
+    QDataStream out(&temp, QIODevice::ReadWrite);    //将字节数组读入
+    qint16 frame_head;
+    qint8 frame_type;
+    qint16 frame_len;
+    qint8 set_type;
+    qlonglong time_param;
+    qint8 run_status;
+    qint8 check_sum;
+
+        out >> frame_head;
+        frame_head = qFromBigEndian(frame_head);
+        if (frame_head != 0XEB90)
+        {
+            qDebug() << "帧头错误！";
+        }
+        out >> frame_type;
+        if (frame_type == 0X02)
+        {
+            analyze_param_setting_req(temp.mid(3));
+        }
+        else if (frame_type == 0X01)
+        {
+            analyze_dev_status(temp.mid(3));
+        }
+        else if (frame_type == 0Xdd)
+        {
+            ui.plainTextEdit->setPlainText("数传数据，不在此解析！");
+        }
+        else
+        {
+            ui.plainTextEdit->setPlainText("帧类型错误！");
+        }      
+}
+
+void QtAnt::analyze_param_setting_req(QByteArray bytearray)
+{
+    QDataStream out(&bytearray, QIODevice::ReadWrite);    //将字节数组读入
+    qint16 frame_len;
+    qint8 set_type;
+    qlonglong time_param;
+    qint8 run_status;
+
+    out >> frame_len;
+    out >> set_type;
+    out >> time_param;
+    out >> run_status;
+    if (run_status)
+    {
+        ui.plainTextEdit->setPlainText("执行失败！");
+    }
+    else
+    {
+        ui.plainTextEdit->setPlainText("执行成功！");
+    }
+}
+
+void QtAnt::analyze_dev_status(QByteArray bytearray)
+{
+    QDataStream out(&bytearray, QIODevice::ReadWrite);    //将字节数组读入
+    qint16 frame_len;  
+    qint8 pack_serial;
+    qlonglong time;
+    qint8 signal_strength;
+    qint8 AGC_gain;
+    qint8 reserve;
+    qint16 demodulation_param;
+    qint8 synthesize_data;
+
+    out >> frame_len;
+    out >> pack_serial;
+    out >> time;
+    out >> signal_strength;
+    out >> AGC_gain;
+    out >> reserve;
+    out >> demodulation_param;
+    out >> synthesize_data;
+  
+}
+
+quint8 QtAnt::check_sum1(quint8* a, int len)
+{
+    unsigned int sum = 0;
+
+    while (len > 1) {
+        sum += *a++;
+        len -= 1;
+    }
+
+    if (len) {
+        sum += *(unsigned char*)a;
+    }
+
+    while (sum >> 8) {
+        sum = (sum >> 8) + (sum & 0xff);
+    }
+
+    return (quint8)(~sum);
 }

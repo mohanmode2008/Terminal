@@ -6,26 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>809</width>
-    <height>573</height>
+    <width>873</width>
+    <height>605</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>QtRealtimeimage</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>30</y>
-     <width>421</width>
-     <height>261</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>图像播放</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="btn_stop">
    <property name="geometry">
     <rect>
@@ -56,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>380</y>
+     <y>420</y>
      <width>201</width>
      <height>141</height>
     </rect>
@@ -240,7 +227,7 @@
    <property name="title">
     <string>提示消息显示：</string>
    </property>
-   <widget class="QTextEdit" name="textEdit">
+   <widget class="QPlainTextEdit" name="plainTextEdit">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -333,7 +320,7 @@
     <string>测试ffpmeg</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btn_to_show">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -357,6 +344,45 @@
    </property>
    <property name="text">
     <string>返回</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_data_tran">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>360</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>连接数传</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_show">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>50</y>
+     <width>331</width>
+     <height>201</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_connect_udp">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>560</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>udp连接按钮</string>
    </property>
   </widget>
  </widget>
