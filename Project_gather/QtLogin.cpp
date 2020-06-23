@@ -30,6 +30,9 @@ QtLogin::QtLogin(QWidget *parent)
     connect(ui.btn_to_status_show, SIGNAL(clicked()), this, SLOT(btn_return_status_show()));
     connect(ui.btn_to_imagetask, SIGNAL(clicked()), this, SLOT(btn_configurate_imageparameter()));
 
+    connect(ui.btn_to_register_dev, SIGNAL(clicked()), this, SLOT(btn_post_regiser_dev()));
+    
+
     file = new QFile;
     file->setFileName("D:/VS_QT/project_gather/operation_record.txt");
     file->open(QIODevice::WriteOnly | QIODevice::Text);
@@ -88,7 +91,7 @@ void QtLogin::btn_post_login()
     http_data = http_docum.toJson(QJsonDocument::Compact);
 
     QNetworkRequest net_req;
-    net_req.setUrl(QUrl("http://192.168.1.254:8080/api/authenticate"));
+    net_req.setUrl(QUrl("http://192.168.2.88:8080/api/authenticate"));
     net_req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     manager_post_login->post(net_req, http_data);
@@ -255,35 +258,34 @@ QString QtLogin::get_usr_id()
 void QtLogin::btn_post_regiser_dev()
 {
     file->write("login:btn_post_regiser_dev\n");
-    QtLogin* login_success;
-    login_success = new QtLogin;
-    QString bearer_string = login_success->get_id_token();
+   
+    QString bearer_string = get_id_token();
     QString token = "123456";
+    //token = bearer_string;
+    bearer_string.prepend("Bearer ");
     QByteArray  http_data;
     QJsonDocument http_docum;
     QJsonObject http_object;
 
-    QString description = "terminal";
+    QString description = "just for test";
     QString host = get_local_ip();
     QString mac_addr = get_local_mac();
-    QString name = "terminal_device";
+    QString name = "yyghost4";
 
     QNetworkRequest net_req;
 
     http_object.insert("description", description);
     http_object.insert("host", host);
     http_object.insert("name", name);
-    http_object.insert("mac_addr", mac_addr);
+    http_object.insert("mac", mac_addr);
 
     http_docum.setObject(http_object);
-    http_data = http_docum.toJson(QJsonDocument::Compact);  
-
-    if (!token.isEmpty()) {
-        net_req.setRawHeader("authorization", token.toStdString().c_str());
-    }
-
-    net_req.setUrl(QUrl("http://192.168.1.254:8080/api/devices"));
+    http_data = http_docum.toJson(QJsonDocument::Compact); 
+   
+    net_req.setUrl(QUrl("http://192.168.2.88:8080/api/devices"));
     net_req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QByteArray  Bearer_bytes = bearer_string.toUtf8();
+    net_req.setRawHeader("Authorization", Bearer_bytes);
 
     regiser_dev_handle->post(net_req, http_data);
 }
@@ -293,6 +295,7 @@ void QtLogin::finished_post_regiser_dev(QNetworkReply* reply)
     QByteArray bytes = reply->readAll();
     int status_code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
+    ui.plainTextEdit->appendPlainText(bytes);
      if (status_code == 201)
     {
         ui.plainTextEdit->appendPlainText("regiser_dev success!");
@@ -322,44 +325,42 @@ void QtLogin::btn_get_dev_interface()
     manager_get_regiter_dev->get(request);
 }
 
+static QString dev_id;
 void QtLogin::finished_get_dev(QNetworkReply* reply)
 {
     QByteArray bytes = reply->readAll();
     QJsonDocument doc = QJsonDocument::fromJson(bytes);
+    QString id;
+    QString description;
+    QString host;
+    QString name;
 
     if (doc.isObject())
     {
         QJsonObject obj = doc.object();
-        qDebug() << "jsonObject[name]==" << obj["display-ribbon-on-profiles"].toString();
-        QJsonValue value = obj.value("git");
-        if (value.isObject())
-        {
-            QJsonObject subobj = value.toObject();
-            qDebug() << "jsonObject1[name]==" << subobj["dirty"].toString();
-            QJsonValue value = subobj.value("build");
-            if (value.isObject())
-            {
-                QJsonObject subobj = value.toObject();
-                qDebug() << "jsonObject2[name]==" << subobj["time"].toString();
-                QJsonValue value = subobj.value("id");
-                if (value.isObject())
-                {
-                    QJsonObject subobj = value.toObject();
-                    qDebug() << "jsonObject3[name]==" << subobj["abbrev"].toString();
-                }
-            }
-        }
-        else
-        {
-            qDebug() << "value.isObject";
-        }
+
+        id = obj["id"].toString();
+        description = obj["description"].toString();
+        host = obj["host"].toString();
+        name = obj["name"].toString();
+
+        dev_id = id;
     }
     else
     {
         qDebug() << "doc.isObject";
     }
+
+    qDebug() << id;
+    qDebug() << description;
+    qDebug() << host;
+    qDebug() << name;
 }
 
+QString QtLogin::get_dev_id()
+{
+    return dev_id;
+}
 QString QtLogin::get_local_ip()
 {
     QString strIpAddress;
@@ -396,6 +397,6 @@ QString QtLogin::get_local_mac()
             break;
         }
     }
-    qDebug() << strMacAddr;
+  //  qDebug() << strMacAddr;
     return strMacAddr;
 }

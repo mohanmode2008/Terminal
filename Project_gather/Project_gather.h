@@ -59,6 +59,7 @@ private slots:
 	void btn_get_local_time();
 	void serial_Read_from_beidou();
 	void btn_open_serial();
+	void timer_time_out();
 
 private:
 	Ui::Project_gatherClass ui;
@@ -69,6 +70,8 @@ private:
 	quint8 select_shortmessage;
 
 	QSerialPort* serial;//全局的串口对象
+
+	QTimer* timer;
 
 	void analyze_card_ID(QByteArray buffer);
 	void analyze_signal_state(QByteArray buffer);

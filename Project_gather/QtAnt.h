@@ -47,13 +47,16 @@ public slots:
 	void btn_set_param_format_to_data_server();
 	void btn_set_ground_detect_rev();
 	void tcp_rev_data_from_ground_detect();
+
+	void btn_to_realtime_image();
+	void  btn_to_timed_image();
 };
 
-typedef struct data_trans_req_frame
+typedef struct data_trans_req_frame_in_ant
 {
 	quint16 frame_head;
 	quint8 frame_type;
 	quint16 frame_len;
 	quint16 frame_data;
 	quint8 frame_sum;
-}data_trans_req_frame_t;
+}data_trans_req_frame_in_ant_t;

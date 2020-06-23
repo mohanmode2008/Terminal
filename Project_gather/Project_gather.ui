@@ -30,7 +30,7 @@
    <widget class="QPushButton" name="btn_startdetection">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>680</x>
       <y>260</y>
       <width>75</width>
       <height>23</height>
@@ -74,6 +74,9 @@
       <width>261</width>
       <height>161</height>
      </rect>
+    </property>
+    <property name="plainText">
+     <string/>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineip_data_tran">
@@ -229,32 +232,6 @@
      <string>天线系统</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_8">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>60</y>
-      <width>89</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>有线正常</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_9">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>90</y>
-      <width>89</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>串口正常</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btn_to_commandtest">
     <property name="geometry">
      <rect>
@@ -297,8 +274,8 @@
    <widget class="QPushButton" name="btn_to_connect_ant">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>190</y>
+      <x>500</x>
+      <y>50</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -578,8 +555,8 @@
    <widget class="QPushButton" name="OpenSerialButton">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>410</y>
+      <x>290</x>
+      <y>400</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -591,8 +568,8 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>460</y>
+      <x>500</x>
+      <y>450</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -604,8 +581,8 @@
    <widget class="QLineEdit" name="send_str">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>360</y>
+      <x>480</x>
+      <y>400</y>
       <width>113</width>
       <height>20</height>
      </rect>

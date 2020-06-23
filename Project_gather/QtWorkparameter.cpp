@@ -3,6 +3,7 @@
 #include <QDateEdit>
 #include "Qttimedimage.h"
 #include "QtRealtimeimage.h"
+#include "QtAnt.h"
 #include "QtCommandtest.h"
 #include <QFile> 
 #include "QtLogin.h"
@@ -14,6 +15,8 @@ QtWorkparameter::QtWorkparameter(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	ptaskplan_results = nullptr;
+	return_plan_num = 0;
 
 	ui.accomplish_time->setDisplayFormat("yyyy:MM:dd HH:mm:ss");
 	ui.accomplish_time->setDateTime(QDateTime::currentDateTime().addDays(0));
@@ -36,8 +39,8 @@ QtWorkparameter::QtWorkparameter(QWidget *parent)
 
 	QMap<QString, int> camera;
 	camera.insert("高分", 1);
-	camera.insert("低分", 2);
-	camera.insert("广角", 3);
+	camera.insert("广角", 2);
+	camera.insert("低分", 3);
 	camera.insert("红外", 4);
 	ui.comboBox_camera->clear();
 	foreach(const QString & str, camera.keys())
@@ -105,6 +108,8 @@ QtWorkparameter::QtWorkparameter(QWidget *parent)
 
 	connect(ui.btn_to_state, SIGNAL(clicked()), this, SLOT(btn_to_state()));
 	connect(ui.btn_to_get_time, SIGNAL(clicked()), this, SLOT(btn_get_time()));
+	connect(ui.btn_to_ant, SIGNAL(clicked()), this, SLOT(btn_to_ant()));
+	
 	connect(ui.btn_apply_author_code, SIGNAL(clicked()), this, SLOT(btn_post_author_code()));	
 	connect(ui.btn_to_timed_image, SIGNAL(clicked()), this, SLOT(btn_to_timed_image()));
 	connect(ui.btn_to_realtime_image, SIGNAL(clicked()), this, SLOT(btn_to_realtime_image()));
@@ -140,147 +145,219 @@ void QtWorkparameter::btn_to_quit()
 	this->close();
 }
 
+void QtWorkparameter::btn_to_realtime_image()
+{
+	//	m_tcpClient->write((char*)data_to_send, (total_validdata_length + 9));
+	QtRealtimeimage* realtimeimage = new QtRealtimeimage;
+	realtimeimage->show();
+	this->hide();
+}
+
+void QtWorkparameter::btn_to_timed_image()
+{
+	//	m_tcpClient->write((char*)data_to_send, (total_validdata_length + 9));
+
+	Qttimedimage* timedimage = new Qttimedimage;
+	timedimage->show();
+	this->hide();
+}
+
+void QtWorkparameter::btn_to_ant()
+{
+	QtAnt* ant = new QtAnt;
+	ant->show();
+	this->hide();
+}
+
 void QtWorkparameter::btn_get_time()
 {
-	QtLogin* login_success;
-	login_success = new QtLogin;
-	QString Bearer_string = login_success->get_id_token();
+	QtLogin* login;
+	login = new QtLogin;
+	QString Bearer_string = login->get_id_token();
+	Bearer_string.prepend("Bearer ");
 
 	QString longitude = ui.lineEdit_longitude->text();
+	float float_num = longitude.toFloat();
+	if (float_num < -180 | float_num > 180)
+	{
+		ui.plainTextEdit->appendPlainText("经度输入有误！");
+		return;
+	}
 	QString latitude = ui.lineEdit_latitude->text();
-
-	//QString token = Bearer_string;
-	QString token ="123456abc";
-	QString observedLongitude = "22.11";
-	QString observedLatitude= "33.22";
+	float_num = latitude.toFloat();
+	if (float_num < -180 | float_num > 180)
+	{
+		ui.plainTextEdit->appendPlainText("纬度输入有误！");
+		return;
+	}
+	QString locationLongitude = "22.11";
+	QString locationLatitude = "33.22";
 	QDateTimeEdit* deadline = ui.accomplish_time;
-	quint32 cmdstarttime = deadline->dateTime().toTime_t();
+	qint64 cmdstarttime = deadline->dateTime().toTime_t();
 	cmdstarttime -= get_second_2010_to_1970();
-//	qDebug() << cmdstarttime;
-//	cmdstarttime = QtCommandtest_work.byteOrderChange32Bit(&cmdstarttime);
-//	memcpy(&data_to_send[48], &cmdstarttime, 4);
 
 	QByteArray  m_httpData;
 	QJsonDocument m_httpDocum;
 	QJsonObject _exampleObject;
 	QJsonObject stationLocation, observedLocation;
 
-	_exampleObject.insert("jobDeadline",QString::number(cmdstarttime, 16));
+	stationLocation.insert("longitude", locationLongitude);
+	stationLocation.insert("latitude", locationLatitude);
+	_exampleObject.insert("stationLocation", stationLocation);
 
-	stationLocation.insert("longitude", longitude);
-	stationLocation.insert("latitude", latitude);
-	_exampleObject.insert("observerLocation", stationLocation);
+	observedLocation.insert("longitude", longitude);
+	observedLocation.insert("latitude", latitude);
+	_exampleObject.insert("observedLocation", observedLocation);
 
-	observedLocation.insert("longitude", observedLongitude);
-	observedLocation.insert("latitude", observedLatitude);
-	_exampleObject.insert("observerLocation", observedLocation);
+	_exampleObject.insert("jobDeadline", cmdstarttime);
 
 	m_httpDocum.setObject(_exampleObject);
 	m_httpData = m_httpDocum.toJson(QJsonDocument::Compact);
-
 	QNetworkRequest netReq;
-	if (!token.isEmpty()) {
-		netReq.setRawHeader("authorization", token.toStdString().c_str());
-	}
-	netReq.setUrl(QUrl("http://192.168.1.254:8080/api/satellite/job/plan"));
+	netReq.setUrl(QUrl("http://192.168.2.88:8080/api/satellite/jobs/plan"));
 	netReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-	manager_post_task_program->post(netReq, m_httpData);
-
+	QByteArray  Bearer0_bytes = Bearer_string.toUtf8();
+	netReq.setRawHeader("Authorization", Bearer0_bytes);
+	manager_get_time->post(netReq, m_httpData);
 }
 
-static QString stationId;
+static qint8 stationId;
 void QtWorkparameter::finished_get_time(QNetworkReply* reply)
-{
+{	
 	QByteArray bytes = reply->readAll();
 	QJsonParseError json_error;
 	QJsonDocument jsonDoc(QJsonDocument::fromJson(bytes, &json_error));
+
+	quint32 period_start;
+	quint32 period_end;
+	int i = 0;
+
+//	ui.plainTextEdit->appendPlainText(bytes);
+
 	if (json_error.error != QJsonParseError::NoError)
 	{
 		qDebug() << "json error!";
-	//	exit(1);
+		return;
 	}
 	if (jsonDoc.isArray())
 	{
 		QJsonArray array = jsonDoc.array();  // 转数组 
 		int nSize = array.size();
+		return_plan_num = nSize ;
 
-		pplan_results = new plan_results[ sizeof(struct plan_results) * nSize];
+		ptaskplan_results = new plan_results_t[ sizeof( plan_results_t) * nSize];
 
-		for (int i = 0; i < nSize; ++i)
+		for (i = 0; i < nSize; ++i)
 		{
-			qDebug() << array.at(i).toObject().value("satelliteId").toString();
-			qDebug() << array.at(i).toObject().value("stationId").toString();
+			qDebug() << array.at(i).toObject().value("satelliteId").toInt();
+			qDebug() << array.at(i).toObject().value("stationId").toInt();
 
-			stationId = array.at(i).toObject().value("stationId").toString();
+			stationId = array.at(i).toObject().value("stationId").toInt();
 
 			qDebug() << array.at(i).toObject().value("commSyncWord").toString();
 
-			pplan_results->satelliteId = array.at(i).toObject().value("satelliteId").toString();
-			pplan_results->stationId = array.at(i).toObject().value("stationId").toString();
-			pplan_results->commSyncWord = array.at(i).toObject().value("commSyncWord").toString();
+			ptaskplan_results->satelliteId = array.at(i).toObject().value("satelliteId").toInt();
+			ptaskplan_results->stationId = array.at(i).toObject().value("stationId").toInt();
+			ptaskplan_results->commSyncWord = array.at(i).toObject().value("commSyncWord").toString();
 
 			if (array.at(i).toObject().value("period").isObject())
 			{
 				QJsonObject jsonObject = array.at(i).toObject().value("period").toObject();
-				qDebug() << "start is " << jsonObject.value("start").toString().toInt();
-				qDebug() << "end is " << jsonObject.value("end").toString().toInt();
+				qDebug() << "start is " << jsonObject.value("start").toInt();
+				qDebug() << "end is " << jsonObject.value("end").toInt();
 
-				pplan_results->period_start = jsonObject.value("start").toString().toInt();
-				pplan_results->period_end = jsonObject.value("end").toString().toInt();
+				period_start = jsonObject.value("start").toString().toInt();
+				ptaskplan_results->period_start = period_start;
+				period_end = jsonObject.value("end").toString().toInt();
+				ptaskplan_results->period_end = period_end;					
+
+				QString datafrom_starttime = time_charge_sec_to_dataform(period_start);
+				QMap<QString, int> map_data_time;				
+				map_data_time.insert(datafrom_starttime, period_start);
+				//ui.comboBox->clear();
+				foreach(const QString & str, map_data_time.keys())
+					ui.comboBox->addItem(str, map_data_time.value(str));
 			}
-			pplan_results++;
+			else
+			{
+				ui.plainTextEdit->appendPlainText("任务规划 返回时间格式有误！");
+			}
+			ptaskplan_results++;
 		}
+		ptaskplan_results -= i;
 	}
 }
 
 static uchar valid_data_to_send[100];
 void QtWorkparameter::btn_post_author_code()
 {	
-	//QString imagingtype = ui.comboBox_imagingtype->currentText();
-//	QString imagingnumber = ui.comboBox_imagingnumber->currentText();
-//	QString imagingtime = ui.comboBox_imagingtime->currentText();
+	QtLogin* login;
+	login = new QtLogin;
+	QString Bearer_string = login->get_id_token();
+	Bearer_string.prepend("Bearer ");
 
-//	int videotime = ui.Slider_videotime->value();
-//	QString  videotimestring = QString::number(videotime);
+	qint32 satelliteId = 0;
+	qint32 stationId = 0;
+	quint8 cameraType = ui.comboBox_camera->currentData().toInt();
+	quint8 visiontype = ui.comboBox_imagingtype->currentData().toInt();
+	quint16 quantity = ui.lineEdit_number->text().toInt();
+	quint8 imageresolution = ui.comboBox_ratio->currentData().toInt();
+	quint8 imageframeFrequency = ui.comboBox_frame_rate->currentText().toInt();
+	quint8 imageworkmode = ui.comboBox_workmode->currentData().toInt();
+	quint8 compressionmode = ui.comboBox_compressmode->currentData().toInt();
+	quint8 compressionratio = ui.comboBox_compressrate->currentText().toInt();
 
-
-//	QString imagingtypestring = ui.comboBox_imagingtype->currentData().toString();//项关联的数据
-
-//	ui.plainTextEdit->appendPlainText(totaltring);
-	/*--------------------------------------------*/
-	QtLogin* login_success;
-	login_success = new QtLogin;
-	QString Bearer_string = login_success->get_id_token();
-	//QString token = Bearer_string;
-	QString token = "123456";
-	QString satelliteId = "0";
-	QString stationId = "0";
-	QString cameratype = ui.comboBox_camera->currentData().toString();
-	QString visiontype = ui.comboBox_imagingtype->currentData().toString();
-	QString quantity = ui.lineEdit_number->text();
-	QString imageresolution = ui.comboBox_ratio->currentData().toString();
-	QString imageframeFrequency = ui.comboBox_frame_rate->currentText();
-	QString imageworkmode = ui.comboBox_workmode->currentData().toString();
-	QString compressionmode = ui.comboBox_compressmode->currentData().toString();
-	QString compressionratio = ui.comboBox_compressrate->currentText();
-	QString deviceid = "123456";
+	//QString deviceid = login->get_dev_id();
+	qint32 deviceid = 123456;
 	QString observerlocation_longitude = "11.11";
 	QString observerlocation_latitude= "22.22";
 	QString observedlocation_longitude= ui.lineEdit_longitude->text();
 	QString observedlocation_latitude = ui.lineEdit_latitude->text();
 	QString transferlocation_longitude ;
 	QString transferlocation_latitude;
-	QString jobMode = ui.task_work_mode->currentData().toString();
-	QString transferRate = ui.comboBox_transfer_rate->currentData().toString();
-	QString jobStartTime = "111111";
-	QString jobDeadline = "222222";
-	QString instructionConversion = ui.comboBox_instruction_conversion->currentData().toString();
-	QString visionPriority = ui.comboBox_priority->currentText();
-	QString allowFixTime = ui.comboBox_charge_time->currentData().toString();
-	QString operateStartTime = "333333";
-	QString operateEndTime = "444444";
+	quint8 jobMode = ui.task_work_mode->currentData().toInt();
+	quint8 transferRate = ui.comboBox_transfer_rate->currentData().toInt();
+
+	QDateTime starttime = ui.edit_cmdstarttime->dateTime();
+	QDateTime origin_utc = QDateTime::fromString("1970-01-01 08:00:00", "yyyy-MM-dd hh:mm:ss");
+	QString  standard_utc_string = "2000-01-01 12:00:00";
+	QDateTime standard_utc = QDateTime::fromString(standard_utc_string, "yyyy-MM-dd hh:mm:ss");
+
+	qint64 nSeconds_standard_to_origin = origin_utc.secsTo(standard_utc);//获取距离1970-01-01 08:00:00的总秒数
+	qint64 nSeconds_dateTime_to_origin = origin_utc.secsTo(starttime);//获取距离1970-01-01 08:00:00的总秒数
+
+	quint32 jobStartTime_int = nSeconds_dateTime_to_origin - nSeconds_standard_to_origin;
+	qint64 jobStartTime = 111111;
+
+	QDateTime endtime = ui.edit_cmdendtime->dateTime();
+	nSeconds_dateTime_to_origin = origin_utc.secsTo(endtime);//获取距离1970-01-01 08:00:00的总秒数
+	quint32 jobDeadline_int = nSeconds_dateTime_to_origin - nSeconds_standard_to_origin;
+	qint64 jobDeadline = 222222;
+	quint8 instructionConversion = ui.comboBox_instruction_conversion->currentData().toInt();
+	quint8 visionPriority = ui.comboBox_priority->currentText().toInt();
+	quint8 allowFixTime = ui.comboBox_charge_time->currentData().toInt();
+	qint64 operateStartTime = 333333;
+	qint64 operateEndTime = 444444;
 	/*--------------------------------------------*/
+	QDateTime StartTime = ui.edit_usestarttime->dateTime();
+	quint32 stime = StartTime.toTime_t();
+	QDateTime Deadline = ui.edit_useendtime->dateTime();
+	quint32 etime = Deadline.toTime_t();
+	if (stime > etime)
+	{
+		ui.plainTextEdit->appendPlainText("时间设置大小有误！");
+		return;
+	}
+
+	 StartTime = ui.dateEdit_start->dateTime();
+	 stime = StartTime.toTime_t();
+	 Deadline = ui.dateEdit_end->dateTime();
+	 etime = Deadline.toTime_t();
+	if (stime > etime)
+	{
+		ui.plainTextEdit->appendPlainText("时间设置大小有误！");
+		return;
+	}
 
 	QByteArray  m_httpData;
 	QJsonDocument m_httpDocum;
@@ -288,7 +365,7 @@ void QtWorkparameter::btn_post_author_code()
 	QJsonObject stationLocation, observedlocation, transferlocation;
 	_exampleObject.insert("satelliteId", satelliteId);
 	_exampleObject.insert("stationId", stationId);
-	_exampleObject.insert("cameraType", cameratype);
+	_exampleObject.insert("cameraType", cameraType);
 	_exampleObject.insert("visionType", visiontype);
 	_exampleObject.insert("quantity", quantity);
 	_exampleObject.insert("imageResolution", imageresolution);
@@ -300,15 +377,15 @@ void QtWorkparameter::btn_post_author_code()
 
 	stationLocation.insert("longitude", observerlocation_longitude);
 	stationLocation.insert("latitude", observerlocation_latitude);
-	_exampleObject.insert("observerLocation", stationLocation);
+	_exampleObject.insert("stationLocation", stationLocation);
 
 	observedlocation.insert("longitude", observedlocation_longitude);
 	observedlocation.insert("latitude", observedlocation_latitude);
-	_exampleObject.insert("observerLocation", observedlocation);
+	_exampleObject.insert("observedLocation", observedlocation);
 
 	transferlocation.insert("longitude", transferlocation_longitude);
 	transferlocation.insert("latitude", transferlocation_latitude);
-	_exampleObject.insert("observerLocation", transferlocation);
+	_exampleObject.insert("transferLocation", transferlocation);
 
 	_exampleObject.insert("jobMode", jobMode);
 	_exampleObject.insert("transferRate", transferRate);
@@ -325,16 +402,13 @@ void QtWorkparameter::btn_post_author_code()
 
 	QNetworkRequest netReq;
 
-	if (!token.isEmpty()) {
-		netReq.setRawHeader("authorization", token.toStdString().c_str());
-	}
-	netReq.setUrl(QUrl("http://192.168.1.254:8080/api/satellite/jobs"));
+	netReq.setUrl(QUrl("http://192.168.2.88:8080/api/satellite/jobs"));
 	netReq.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
+	QByteArray  Bearer0_bytes = Bearer_string.toUtf8();
+	netReq.setRawHeader("Authorization", Bearer0_bytes);
 	qDebug() << "btn_post_task_plan";
-	manager_post_task_program->post(netReq, m_httpData);
-
-
+	manager_post_author_code->post(netReq, m_httpData);
 
 	QDateTime origin_time = QDateTime::fromString("1970-01-01 08:00:00", "yyyy-MM-dd hh:mm:ss");
 	QString begin = "2000-01-01 12:00:00";
@@ -343,12 +417,11 @@ void QtWorkparameter::btn_post_author_code()
 
 	QtCommandtest QtCommandtest_work;
 	uchar*  data_to_send = new uchar[100];
-	//qDebug() << ui.comboBox_camera->currentData();
-	//qDebug() << ui.comboBox_camera->currentData().toString();
+
 	memcpy(&data_to_send[0], &(ui.comboBox_camera->currentData()), 1);
 	memcpy(&data_to_send[1], &(ui.comboBox_imagingtype->currentData()), 1);
-	quint16 iquantity = quantity.toInt();
-	memcpy(&data_to_send[2],&iquantity,2); 
+
+	memcpy(&data_to_send[2],&quantity,2);
 	memcpy(&data_to_send[4], &(ui.comboBox_ratio->currentData()), 1);
 	quint8 frame_rate =  ui.comboBox_frame_rate->currentText().toInt();
 	memset(&data_to_send[5], frame_rate, 1);
@@ -359,35 +432,35 @@ void QtWorkparameter::btn_post_author_code()
 	memset(&data_to_send[9], 0, 1);
 	memset(&data_to_send[10], 0, 1);
 	float uilineEdit_longitude = (ui.lineEdit_longitude->text()).toFloat();
-	//uilineEdit_longitude = QtCommandtest_work.byteOrderChange32Bit(uilineEdit_longitude);
+
 	memcpy(&data_to_send[11], &uilineEdit_longitude, 4);
 	float uilineEdit_latitude = (ui.lineEdit_latitude->text()).toFloat();
-	//uilineEdit_latitude = QtCommandtest_work.byteOrderChange32Bit(uilineEdit_latitude);
+
 	memcpy(&data_to_send[15], &uilineEdit_latitude, 4);
 	memset(&data_to_send[19], 0x11111111, 4);
 	memset(&data_to_send[23], 0x22222222, 4);
 	memset(&data_to_send[27], 0x33333333, 4);
 	float term_longitude = (ui.Edit_term_longitude->text()).toFloat();
-	//term_longitude = QtCommandtest_work.byteOrderChange32Bit(term_longitude);
+
 	memcpy(&data_to_send[31], &term_longitude, 4);
 	float term_latitude = (ui.Edit_term_latitude->text()).toFloat();
-	//term_latitude = QtCommandtest_work.byteOrderChange32Bit(term_latitude);
+
 	memcpy(&data_to_send[35], &term_latitude, 4);
 	memcpy(&data_to_send[39], &(ui.task_work_mode->currentData()), 1);
 	float pass_longitude = (ui.lineEdit_pass_longitude->text()).toFloat();
-	//pass_longitude = QtCommandtest_work.byteOrderChange32Bit(pass_longitude);
+
 	memcpy(&data_to_send[40], &pass_longitude, 4);
 	float pass_latitude = (ui.lineEdit_pass_latitude->text()).toFloat();
-	//pass_latitude = QtCommandtest_work.byteOrderChange32Bit(pass_latitude);
+
 	memcpy(&data_to_send[44],&pass_latitude, 4);
-//	qint32  cmdstarttime = (ui.edit_cmdstarttime->text()).toInt();
+
 	QDateTimeEdit* cmd_start_time = ui.edit_cmdstarttime;
 	quint32 cmdstarttime = cmd_start_time->dateTime().toTime_t();
 	cmdstarttime -= nSeconds;
 	qDebug() << cmdstarttime;
 	cmdstarttime = qToBigEndian(cmdstarttime);
 	memcpy(&data_to_send[48], &cmdstarttime, 4);
-//	qint32  cmdendtime = (ui.edit_cmdendtime->text()).toInt();
+
 	QDateTimeEdit* cmd_end_time = ui.edit_cmdendtime;
 	quint32 cmdendtime = cmd_end_time->dateTime().toTime_t();
 	cmdendtime -= nSeconds;
@@ -397,13 +470,13 @@ void QtWorkparameter::btn_post_author_code()
 	memcpy(&data_to_send[57], &(ui.comboBox_instruction_conversion->currentData()), 1);
 	quint8 priority = ui.comboBox_frame_rate->currentText().toInt();
 	memset(&data_to_send[58], priority, 1);
-//	qint32  usestarttime = (ui.edit_usestarttime->text()).toInt();
+
 	QDateTimeEdit* use_start_time = ui.edit_usestarttime;
 	quint32 usestarttime = use_start_time->dateTime().toTime_t();
 	usestarttime -= nSeconds;
 	usestarttime = qToBigEndian(usestarttime);
 	memcpy(&data_to_send[59], &usestarttime, 4);
-//	qint32  useendtime = (ui.edit_useendtime->text()).toInt();
+
 	QDateTimeEdit* use_end_time = ui.edit_useendtime;
 	quint32 useendtime = use_end_time->dateTime().toTime_t();
 	useendtime -= nSeconds;
@@ -440,6 +513,8 @@ void QtWorkparameter::finished_post_author_code(QNetworkReply* reply)
 	string.prepend(bytes);
 	int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
+	//ui.plainTextEdit->appendPlainText(bytes);
+
 	if (reply->error() == QNetworkReply::NoError)
 	{
 		ui.plainTextEdit->appendPlainText(QString(reply->readAll()));
@@ -460,32 +535,14 @@ void QtWorkparameter::finished_post_author_code(QNetworkReply* reply)
 		{
 			QJsonObject jsonObject = jsonDocument.object();
 
-			qDebug() << "id is " << jsonObject.value("id").toString().toInt()
+			qDebug() << "task id is " << jsonObject.value("id").toInt()
 				<< "\n";
-			qDebug() << "authCode is " << jsonObject.value("authCode").toString().toInt()
+			qDebug() << "authCode is " << jsonObject.value("authCode").toString()
 				<< "\n";
-			qDebug() << "jobPriority is " << jsonObject.value("jobPriority").toString().toInt()
+			qDebug() << "jobPriority is " << jsonObject.value("jobPriority").toInt()
 				<< "\n";
 		}
-	}
-	
-}
-
-void QtWorkparameter::btn_to_realtime_image()
-{
-//	m_tcpClient->write((char*)data_to_send, (total_validdata_length + 9));
-	QtRealtimeimage* realtimeimage = new QtRealtimeimage;
-	realtimeimage->show();
-	this->hide();
-}
-
-void QtWorkparameter::btn_to_timed_image()
-{
-//	m_tcpClient->write((char*)data_to_send, (total_validdata_length + 9));
-
-	Qttimedimage* timedimage = new Qttimedimage;
-	timedimage->show();
-	this->hide();
+	}	
 }
 
 void  QtWorkparameter::tcp_connected_success()
@@ -507,7 +564,7 @@ uchar*  QtWorkparameter::valid_data_to_send_data()
 	return valid_data_to_send;
 }
 
-QString QtWorkparameter::time_charge(quint64 sec)
+QString QtWorkparameter::time_charge_sec_to_dataform(quint64 sec)
 {
 	QDateTime origin_time = QDateTime::fromString("1970-01-01 08:00:00", "yyyy-MM-dd hh:mm:ss");
 	QDateTime current_time = QDateTime::currentDateTime();//显示时间，格式为：年-月-日 时：分：秒 周几
@@ -524,9 +581,9 @@ QString QtWorkparameter::time_charge(quint64 sec)
 	QDateTime dateTime = QDateTime::fromTime_t(ms);
 	QString str = dateTime.toString("yyyy-MM-dd hh:mm:ss");
 
-	qDebug() << dateTime << endl;
-	qDebug() << str;
-	str = str.mid(5);
+//	qDebug() << dateTime << endl;
+//	qDebug() << str;
+//	str = str.mid(5);
 	return str;
 }
 
@@ -553,7 +610,6 @@ void QtWorkparameter::station_connected_ground_success()
 	ui.plainTextEdit->appendPlainText("连接服务器成功 as station!");
 
 	connect(ui.btn_to_Identification_2, SIGNAL(clicked()), this, SLOT(tcp_send_station_identity_data()));
-
 }
 
 void QtWorkparameter::tcp_send_station_identity_data()
@@ -663,7 +719,6 @@ void QtWorkparameter::udp_send_signal_pata_data()
 	quint8  smg_aisle = 0x01;
 	quint8  smg_launch_switch = 0x01;
 	quint8  smg_modulation_switch = 0x01;
-
 	quint8  smg_crc = 0x88;
 
 	memcpy(data_to_send, &smg_head, 4);
@@ -700,4 +755,166 @@ void QtWorkparameter::udp_send_data()
 	memcpy(data_to_send + 21, &smg_crc, 1);
 
 	sender->writeDatagram((char*)data_to_send, 21, QHostAddress("192.168.0.70"), 10086);
+}
+
+void QtWorkparameter::test()
+{
+	QFile loadFile("D:\\11.json");
+
+	if (!loadFile.open(QIODevice::ReadOnly))
+	{
+		qDebug() << "could't open projects json";
+		return;
+	}
+
+	QByteArray allData = loadFile.readAll();
+	loadFile.close();
+
+
+	QByteArray bytes;
+	bytes = allData;
+
+	QJsonParseError json_error;
+	QJsonDocument jsonDoc(QJsonDocument::fromJson(bytes, &json_error));
+
+	quint32 period_start;
+	quint32 period_end;
+	if (json_error.error != QJsonParseError::NoError)
+	{
+		qDebug() << "json error!";
+		return;
+	}
+	if (jsonDoc.isArray())
+	{
+		QJsonArray array = jsonDoc.array();  // 转数组 
+		int nSize = array.size();
+		return_plan_num = nSize;
+
+		ptaskplan_results = new plan_results_t[sizeof(plan_results_t) * nSize];
+		qDebug() << "plan_results_t";
+		qDebug() << sizeof(plan_results_t) * nSize;
+		for (int i = 0; i < nSize; ++i)
+		{
+			qDebug() << array.at(i).toObject().value("satelliteId").toString();
+			qDebug() << array.at(i).toObject().value("stationId").toString();
+
+			stationId = array.at(i).toObject().value("stationId").toString();
+
+			qDebug() << array.at(i).toObject().value("commSyncWord").toString();
+
+			ptaskplan_results[i].satelliteId = array.at(i).toObject().value("satelliteId").toString();
+			ptaskplan_results[i].stationId = array.at(i).toObject().value("stationId").toString();
+			ptaskplan_results[i].commSyncWord = array.at(i).toObject().value("commSyncWord").toString();
+
+			if (array.at(i).toObject().value("period").isObject())
+			{
+				QJsonObject jsonObject = array.at(i).toObject().value("period").toObject();
+
+				period_start = jsonObject.value("start").toString().toInt();
+				ptaskplan_results[i].period_start = QString::number(period_start, 10);
+				period_end = jsonObject.value("end").toString().toInt();
+				ptaskplan_results[i].period_end = QString::number(period_end, 10);
+
+				QString start_num = QString::number(i, 10);
+				QMap<QString, int> map_data_time;
+				map_data_time.insert("时间段" + start_num, i);
+				//ui.comboBox->clear();
+				foreach(const QString & str, map_data_time.keys())
+					ui.comboBox->addItem(str, map_data_time.value(str));
+
+			
+			}
+			else
+			{
+				ui.plainTextEdit->appendPlainText("任务规划 返回时间格式有误！");
+			}
+			//ptaskplan_results++;
+		}		
+	}
+
+	connect(ui.comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBox_currentIndexChanged(int)));
+}
+
+void QtWorkparameter::comboBox_currentIndexChanged(int index)
+{
+	QString zone = ui.comboBox->currentData().toString();//项关联的数据
+	ui.plainTextEdit->appendPlainText(":区号=" + zone);
+
+	qDebug() << ptaskplan_results[index].satelliteId;
+	ui.lineEdit->setText(ptaskplan_results[index].satelliteId);
+	qDebug() << ptaskplan_results[index].stationId;
+	qDebug() << ptaskplan_results[index].commSyncWord;
+	quint32 period_start;
+	quint32 period_end;
+	period_start = ptaskplan_results[index].period_start.toInt();
+	QString datafrom_period_start = time_charge_sec_to_dataform(period_start);
+	period_end = ptaskplan_results[index].period_end.toInt();
+	QString datafrom_period_end = time_charge_sec_to_dataform(period_end);
+
+	QDateTimeEdit* dateTimeEdit = ui.dateEdit_start;
+	ui.dateEdit_start->setDisplayFormat("yyyy-MM-dd hh:mm:ss");
+	QDateTime  time = QDateTime::fromString(datafrom_period_start, "yyyy-MM-dd hh:mm:ss");
+	dateTimeEdit->setDateTime(time);
+
+	dateTimeEdit = ui.dateEdit_end;
+	ui.dateEdit_end->setDisplayFormat("yyyy-MM-dd hh:mm:ss");
+	time = QDateTime::fromString(datafrom_period_end, "yyyy-MM-dd hh:mm:ss");
+	dateTimeEdit->setDateTime(time);
+}
+
+void QtWorkparameter::get_gps_data()
+{
+	QFile loadFile("D:\\gpsdata.txt");
+
+	if (!loadFile.open(QIODevice::ReadOnly))
+	{
+		qDebug() << "could't open projects json";
+		return;
+	}
+
+	QByteArray allData = loadFile.readAll();
+	loadFile.close();
+
+	quint32 aa = allData.lastIndexOf("$GPGGA",-1);
+	quint32 bb = allData.lastIndexOf("$GPRMC", -1);
+
+	QByteArray str2  = allData.mid(aa, bb);
+	QString gps_data = str2;
+	QString  latitude = gps_data.section(",", 2, 2);
+	QString  latitude_NS = gps_data.section(",",3, 3);
+	QString longitude = gps_data.section(",", 4, 4);
+	QString longitude_EW = gps_data.section(",", 5, 5);
+	QString elevation = gps_data.section(",", 9, 9);
+	float longtude_f;
+	float latitude_f;
+	float elevation_f;
+
+	if (latitude_NS.compare("N") == 0)
+	{
+		latitude_f = latitude.toFloat() / 100;
+	}
+	else
+	{
+		latitude_f = -latitude.toFloat() / 100;
+	}
+
+	if (longitude_EW.compare("E") == 0)
+	{
+		longtude_f = longitude.toFloat() / 100;
+	}
+	else
+	{
+		longtude_f = -longitude.toFloat() / 100;
+	}
+	elevation_f = elevation.toFloat();
+
+	QString data = QString("%1").arg(latitude_f);
+	ui.Edit_term_longitude->setText(data);
+	longtude_f = -longtude_f;
+	 data = QString("%1").arg(longtude_f);
+	ui.Edit_term_latitude->setText(data);
+	
+	qDebug() << latitude_f;
+	qDebug() << longtude_f;
+	qDebug() << elevation_f;
 }

@@ -103,6 +103,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="text">
+    <string>admin</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="Edit_password">
    <property name="geometry">
@@ -112,6 +115,9 @@
      <width>113</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>admin</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -166,21 +172,21 @@
   <widget class="QPushButton" name="btn_to_get_id">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>420</y>
+     <x>250</x>
+     <y>410</y>
      <width>71</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>获取ID</string>
+    <string>获取用户ID</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="btn_to_register_dev">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>370</y>
+     <x>250</x>
+     <y>360</y>
      <width>75</width>
      <height>23</height>
     </rect>

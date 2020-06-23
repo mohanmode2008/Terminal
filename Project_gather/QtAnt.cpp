@@ -1,6 +1,7 @@
 #include "QtAnt.h"
 #include "Project_gather.h"
-
+#include "Qttimedimage.h"
+#include "QtRealtimeimage.h"
 #include <QtNetwork>
 
 #pragma execution_character_set("utf-8")
@@ -32,7 +33,11 @@ QtAnt::QtAnt(QWidget *parent)
     connect(ui.btn_to_rev_data_tran, SIGNAL(clicked()), this, SLOT(btn_set_ground_detect_rev()));
     
 
-    connect(ui.btn_to_init_timer, SIGNAL(clicked()), this, SLOT(init_timer()));    
+    connect(ui.btn_to_init_timer, SIGNAL(clicked()), this, SLOT(init_timer())); 
+
+    connect(ui.btn_to_realtieme, SIGNAL(clicked()), this, SLOT(btn_to_realtime_image()));
+    connect(ui.btn_to_delaytime, SIGNAL(clicked()), this, SLOT(btn_to_timed_image()));
+    
 
     Project_gather* project_gather = new Project_gather;
 
@@ -62,6 +67,23 @@ void QtAnt::btn_to_gather()
 {
     Project_gather* project_gather = new Project_gather;
     project_gather->show();
+    this->hide();
+}
+
+void QtAnt::btn_to_realtime_image()
+{
+    //	m_tcpClient->write((char*)data_to_send, (total_validdata_length + 9));
+    QtRealtimeimage* realtimeimage = new QtRealtimeimage;
+    realtimeimage->show();
+    this->hide();
+}
+
+void QtAnt::btn_to_timed_image()
+{
+    //	m_tcpClient->write((char*)data_to_send, (total_validdata_length + 9));
+
+    Qttimedimage* timedimage = new Qttimedimage;
+    timedimage->show();
     this->hide();
 }
 
@@ -397,7 +419,9 @@ void QtAnt::tcp_rev_data_from_ground_detect()
         else
         {
             ui.plainTextEdit->setPlainText("÷°¿‡–Õ¥ÌŒÛ£°");
-        }      
+        }
+
+    //    qChecksum(temp, 10);
 }
 
 void QtAnt::analyze_param_setting_req(QByteArray bytearray)

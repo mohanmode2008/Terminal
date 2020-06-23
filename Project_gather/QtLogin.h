@@ -19,14 +19,14 @@ public:
 	~QtLogin();
 
 	QString get_id_token();
-
+	QString get_dev_id();
 private:
 	Ui::QtLogin ui;
 
 	QNetworkRequest netReq;
 	QNetworkAccessManager* manager_post_login;
 
-	QString  id_token;
+//	QString  id_token;
 
 	QNetworkReply* reply;
 

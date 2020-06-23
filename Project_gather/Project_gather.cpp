@@ -48,11 +48,6 @@ void Project_gather::btn_login()
 	this->hide();
 }
 
-void Project_gather::btn_startdetection()
-{
-	//ui.btn_wirednetwork->setChecked(1);
-}
-
 void Project_gather::btn_quit()
 {
 	this->close();
@@ -79,6 +74,35 @@ void Project_gather::btn_power()
 	this->hide();
 }
 
+void Project_gather::btn_startdetection()
+{
+	timer = new QTimer;
+
+	timer->setSingleShot(false);
+	timer->start(5000);
+	connect(timer, SIGNAL(timeout()), this, SLOT(timer_time_out()));
+}
+
+void Project_gather::timer_time_out()
+{
+	qDebug() << "TimerTimeOut";
+	if (serial->isOpen() == false)
+	{
+		//断开连接
+	}
+
+	qint64 x = tcp_to_ground_ctl_handle->write("aaaa");
+
+	if (x == -1)
+	{
+		ui.plainTextEdit->appendPlainText("关闭连接");
+	}
+	else
+	{
+		ui.plainTextEdit->appendPlainText("正常连接");
+	}
+}
+
 /*---------到运控的TCP连接----------*/
 static QTcpSocket* gtcp_to_ground_ctl_handle = Q_NULLPTR;
 void Project_gather::tcp_connect_ground_ctl_as_client()
@@ -100,7 +124,7 @@ QTcpSocket* Project_gather::get_tcp_to_ground_handle()
 }
 
 /*---------到地检数传的TCP连接----------*/
-QTcpSocket* gp_tcp_to_ground_detect_handle;
+QTcpSocket* gp_tcp_to_ground_detect_handle = Q_NULLPTR;
 void Project_gather::tcp_connect_ground_detect_as_data_transmission()
 {
 	tcp_to_ground_detect_handle = new QTcpSocket(this);
@@ -130,6 +154,7 @@ void Project_gather::tcp_disconnected_ground_detect()
 	ui.plainTextEdit->appendPlainText("断开地检数传");
 }
 
+/*---------到天线的TCP连接----------*/
 QTcpSocket* gp_tcp_to_ant_handle;
 void  Project_gather::btn_connect_ant()
 {
@@ -221,7 +246,7 @@ void Project_gather::btn_open_serial()
 {
 	serial = new QSerialPort;
 	if (ui.OpenSerialButton->text() == tr("打开串口"))
-	{		
+	{
 		//设置串口名
 		serial->setPortName(ui.portBox->currentText());
 		//打开串口
@@ -268,8 +293,6 @@ void Project_gather::btn_open_serial()
 		ui.stopBox->setEnabled(false);
 		ui.baudBox->setEnabled(false);
 		ui.OpenSerialButton->setText("关闭串口");
-
-
 		QObject::connect(serial, &QSerialPort::readyRead, this, &Project_gather::serial_Read_from_beidou);
 	}
 	else
@@ -287,7 +310,6 @@ void Project_gather::btn_open_serial()
 		ui.stopBox->setEnabled(true);
 		ui.OpenSerialButton->setText("打开串口");
 	}
-
 }
 
 void Project_gather::btn_read_cardnumber()

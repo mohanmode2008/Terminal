@@ -3,19 +3,18 @@
 #include <QWidget>
 #include "ui_QtWorkparameter.h"
 #include <QtNetwork>
-#include <QNetworkRequest> 
-
+#include <QNetworkRequest>
 #include <QAbstractSocket>
+
 class QTcpSocket;
 
-
-struct plan_results {
-	QString  satelliteId;
-	QString  stationId;
+typedef struct plan_results {
+	qint8  satelliteId;
+	qint8  stationId;
 	QString  commSyncWord;
-	QString  period_start;
-	QString  period_end;
-};
+	qint64  period_start;
+	qint64  period_end;
+}plan_results_t;
 
 class QtWorkparameter : public QWidget
 {
@@ -27,7 +26,7 @@ public:
 
 	uchar* valid_data_to_send_data();
 
-	plan_results * pplan_results;
+	plan_results_t * ptaskplan_results;
 
 private:
 	Ui::QtWorkparameter ui;
@@ -43,15 +42,18 @@ private:
 
 	QUdpSocket* sender;
 
-	QString time_charge(quint64 sec);
+	QString time_charge_sec_to_dataform(quint64 sec);
 
 	qint64 get_second_2010_to_1970();
+
+	quint16 return_plan_num;
 
 private slots:
 	void btn_to_state();
 	void btn_to_quit();
 	void btn_to_realtime_image();
 	void btn_to_timed_image();
+	void btn_to_ant();
 
 	void btn_get_time();
 
@@ -80,5 +82,9 @@ private slots:
 	void udp_send_signal_pata_data();
 
 	void udp_send_data();
+
+	void test();
+	void comboBox_currentIndexChanged(int);
+	void get_gps_data();
 };
 

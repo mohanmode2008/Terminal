@@ -56,7 +56,7 @@ typedef struct data_tran_frame_realtime
 	quint8 frame_aisle;
 	quint8 frame_serial;
 	quint64 frame_time;
-	quint8* frame_data;
+	uchar* frame_data;
 	quint8 frame_sum;
 }data_tran_frame_realtime_t;
 

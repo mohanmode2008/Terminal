@@ -61,7 +61,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>上</string>
+     <string>北</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_to_south">
@@ -191,7 +191,7 @@
    <widget class="QPushButton" name="btn_optimize">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>80</x>
       <y>130</y>
       <width>75</width>
       <height>23</height>
@@ -204,7 +204,7 @@
    <widget class="QPushButton" name="btn_optimize_display">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>170</x>
       <y>130</y>
       <width>75</width>
       <height>23</height>
@@ -310,8 +310,8 @@
   <widget class="QPushButton" name="btn_ffpneg">
    <property name="geometry">
     <rect>
-     <x>440</x>
-     <y>550</y>
+     <x>410</x>
+     <y>580</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -375,8 +375,8 @@
   <widget class="QPushButton" name="btn_to_connect_udp">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>560</y>
+     <x>270</x>
+     <y>580</y>
      <width>75</width>
      <height>23</height>
     </rect>

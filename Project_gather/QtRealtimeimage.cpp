@@ -6,6 +6,8 @@
 #include <QFileDialog> 
 #include <QMessageBox> 
 
+#pragma execution_character_set("utf-8")
+
 QtRealtimeimage::QtRealtimeimage(QWidget *parent)
 	: QWidget(parent)
 {
@@ -184,7 +186,7 @@ void QtRealtimeimage::btn_connect_data_server()
 
 void QtRealtimeimage::connect_data_server_success() {
 
-	ui.plainTextEdit->appendPlainText("连接数据服务器成功");
+	ui.plainTextEdit->appendPlainText("连接数传成功");
 }
 
 void QtRealtimeimage::read_data_server()
@@ -199,11 +201,13 @@ void QtRealtimeimage::read_data_server()
 		if (data_tran_frame.frame_head != 0XEB90)
 		{
 			qDebug() << "帧头错误！";
+			return;
 		}
 		out >> data_tran_frame.frame_type;
 		if (data_tran_frame.frame_type != 0Xdd)
 		{
-			qDebug() << "类型错误！";
+			qDebug() << "非数传类型！";
+			return;
 		}
 		out >> data_tran_frame.frame_len;
 		data_tran_frame.frame_len = qFromBigEndian(data_tran_frame.frame_len);
@@ -211,6 +215,7 @@ void QtRealtimeimage::read_data_server()
 		if (data_tran_frame.frame_aisle != 0X0d)
 		{
 			qDebug() << "非数传通道！";
+			return;
 		}
 		out >> data_tran_frame.frame_serial;
 		out >> data_tran_frame.frame_time;
@@ -221,6 +226,7 @@ void QtRealtimeimage::read_data_server()
 		else
 		{
 			qDebug() << "数据错误";
+			return;
 		}
 		for (quint64 i = 0; i < data_tran_frame.frame_len - 10; i++)
 		{
@@ -231,9 +237,25 @@ void QtRealtimeimage::read_data_server()
 	
 	QPixmap imageresult;//
 
-	temp = temp.remove(0, 15);
-	imageresult.loadFromData(temp);
-	imageresult.save("d:/1.jpg");
+//	temp = temp.remove(0, 15);
+//	imageresult.loadFromData(data_tran_frame.frame_data, data_tran_frame.frame_len - 10);
+//	bool ret = imageresult.save("d:/1.jpg");
+
+//	QString data((data_tran_frame.frame_data));
+//	QByteArray imageData = QByteArray::fromBase64(data.toLatin1());
+//	QByteArray imageData = temp.mid(10, data_tran_frame.frame_len - 10);
+	QImage image;
+	image.loadFromData(data_tran_frame.frame_data, data_tran_frame.frame_len - 10);
+	bool ret = image.save("d:/1.jpg");
+	if (ret == true)
+	{
+		qDebug() << "保存成功！";
+	}
+	else
+	{
+		qDebug() << "保存失败！";
+	}
+	
 }
 
 void QtRealtimeimage::tcp_set_param_format_to_data_server()
@@ -275,6 +297,7 @@ void QtRealtimeimage::tcp_send_data_trans_req_to_data_server()
 	else
 	{
 		ui.plainTextEdit->setPlainText("句柄读取失败");
+		return;
 	}
 
 	ui.plainTextEdit->setPlainText("发送数传接收命令成功");

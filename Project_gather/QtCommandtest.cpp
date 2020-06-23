@@ -99,6 +99,9 @@ QtCommandtest::QtCommandtest(QWidget *parent)
     connect(ui.btn_to_server, SIGNAL(clicked()), this, SLOT(tcp_connect_server_as_client()));
     connect(ui.btn_to_send_Identification, SIGNAL(clicked()), this, SLOT(tcp_send_identity_data_to_ctl_center()));
     connect(ui.btn_to_bind_station, SIGNAL(clicked()), this, SLOT(tcp_send_connect_data_to_ctl_center()));
+
+    connect(ui.btn_to_udp, SIGNAL(clicked()), this, SLOT(by_udp_connect_to_sky()));
+    
     /*---------------*/
 
      telecontrol_frame_up.satellite_syn_byte[0] = 0x1D;
@@ -6988,17 +6991,44 @@ qint8 QtCommandtest::btn_to_send_cmd()
     }
     int send_data_amount = send_data_len_build_frame[select_in_frame_list];
     quint8* send_data_build_frmae = send_data_build_frame[select_in_frame_list];
-    qDebug() << send_data_amount;
+   // qDebug() << send_data_amount;
   
     for (quint16 i = 0; i < send_data_amount; i++)
     {
    //     qDebug() << send_data_build_frmae[i];
     }
-   tcp_to_ground_ctl_handle->write((char*)send_data_build_frmae, send_data_amount);
+    if (tcp_to_ground_ctl_handle != Q_NULLPTR)
+    {
+        tcp_to_ground_ctl_handle->write((char*)send_data_build_frmae, send_data_amount);
+    }
+    else
+    {
+      //  m_tcpClient->write((char*)send_data_build_frmae, send_data_amount);
+        for (quint16 i = 0; i < 10; i++)
+        {
+          //  qDebug() << send_data_build_frmae[i];
+        }
+       // udp_send_data(send_data_build_frmae, send_data_amount);
+
+        tcp_to_ground_check_handle->write((char*)send_data_build_frmae, send_data_amount);
+        qDebug() << "tcp_to_ground_check_handle";
+    }
     return 1;
 }
 
-static QByteArray rev_telemetry;
+void QtCommandtest::tcp_connect_ground_check_as_client()
+{
+    tcp_to_ground_check_handle = new QTcpSocket(this);
+    tcp_to_ground_check_handle->connectToHost("192.168.2.156", 10086);
+    connect(tcp_to_ground_ctl_handle, SIGNAL(connected()), this, SLOT(tcp_connected_ground_check_success()));
+}
+
+void QtCommandtest::tcp_connected_ground_check_success()
+{
+    ui.plainTextEdit_reminder->appendPlainText("连接运控中心服务器成功");
+}
+
+/*
 qint8 QtCommandtest::update_ReadServer_data()
 {
     qint8 frame_data_len;
@@ -7008,16 +7038,35 @@ qint8 QtCommandtest::update_ReadServer_data()
     reply_valid_data_t reply_valid_data;
 
     int i;
-    if (rev_telemetry.isNull())
+   // if (rev_telemetry.isNull())
+    if (1)
     {
         temp = m_tcpClient->readAll();
     }
     else
     {
-        qDebug() <<"enter rev_telemetry" << endl;
-        temp = rev_telemetry;
+        qDebug() << "enter rev_telemetry" << endl;
+      //  temp = rev_telemetry;
     }
-    
+
+    QDataStream out(&temp, QIODevice::ReadWrite);    //将字节数组读入
+
+    out >> rev_data.satellite_syn_byte;
+    rev_data.satellite_syn_byte = qFromBigEndian(rev_data.satellite_syn_byte);
+
+}
+*/
+//static QByteArray rev_telemetry;
+qint8 QtCommandtest::analyze_telemetry_data(QByteArray rev_telemetry, quint32 len)
+{
+    qint8 frame_data_len;
+    QByteArray temp;
+    rev_valid_data_head_t rev_valid_data_head;
+    rev_data_t rev_data;
+    reply_valid_data_t reply_valid_data;
+    int i;
+    temp = rev_telemetry;
+
     QDataStream out(&temp, QIODevice::ReadWrite);    //将字节数组读入
 
     out >>rev_data.satellite_syn_byte;
@@ -8306,7 +8355,7 @@ void QtCommandtest::btn_clr_cmd_build_frame()
     }
 }
 
-void QtCommandtest::btn_to_connect_tcp()
+void QtCommandtest::test_btn_to_connect_tcp()
 {
      
     m_tcpClient = new QTcpSocket(this);
@@ -8336,15 +8385,14 @@ void QtCommandtest::btn_to_connect_tcp()
     }
     int num = line_port.toInt();
     m_tcpClient->connectToHost(line_ip, num);
-    connect(m_tcpClient, SIGNAL(connected()), this, SLOT(connected_success()));
-
-
-    connect(m_tcpClient, SIGNAL(readyRead()), this, SLOT(update_ReadServer_data()));
-
-
- //   m_tcpClient->connectToHost("192.168.0.107", 10086);
+    connect(m_tcpClient, SIGNAL(connected()), this, SLOT(test_tcp_connected_ground_detect_success()));
 
     file.close();
+}
+
+void QtCommandtest::test_tcp_connected_ground_detect_success()
+{
+    ui.plainTextEdit_reminder->appendPlainText("连接服务器成功");
 }
 
 void QtCommandtest::by_udp_connect_to_sky()
@@ -8360,17 +8408,90 @@ void QtCommandtest::by_udp_connect_to_sky()
 
 void QtCommandtest::udp_rev_data_from_sky() //处理等待的数据报
 {
+    typedef struct frame_head_section
+    {
+        quint32 frame_head;
+        quint16 frame_type;
+        quint16 frame_len;
+    }frame_head_section_t;
+    frame_head_section_t frame_head_section;
+    quint8* valid_data;
+    quint8 sum_total = 0;
+    QByteArray datagram; //拥于存放接收的数据报
+    QByteArray valid_data_array;
+
     while (sender1->hasPendingDatagrams()) //拥有等待的数据报
     {
-        QByteArray datagram; //拥于存放接收的数据报
         datagram.resize(sender1->pendingDatagramSize());
         sender1->readDatagram(datagram.data(), datagram.size());
         unsigned short size = datagram.size();
-        unsigned char msg[10] = { 0 };
-        memcpy(msg, datagram.data(), size);
-        unsigned short arr = msg[0];
-        arr = (arr << 8) + msg[1];
-        qDebug() << msg[0] << msg[1] << msg[2] << msg[3];
+
+        QDataStream out(&datagram, QIODevice::ReadWrite);    //将字节数组读入
+       
+        out >> frame_head_section.frame_head;
+        out >> frame_head_section.frame_type;
+        out >> frame_head_section.frame_len;
+
+        frame_head_section.frame_head = qFromBigEndian(frame_head_section.frame_head);
+        frame_head_section.frame_type = qFromBigEndian(frame_head_section.frame_type);
+        frame_head_section.frame_len = qFromBigEndian(frame_head_section.frame_len);
+
+        valid_data = new quint8[frame_head_section.frame_len];
+
+        for(quint32 i = 0; i < frame_head_section.frame_len; i ++)
+        {
+            out >> valid_data[i];
+        } 
+        out >> sum_total;
+    } 
+
+    quint8 calculate_sum = check_sum1(valid_data, frame_head_section.frame_len);
+
+    if (calculate_sum != sum_total)
+    {
+        qDebug() << "校验错误！";
+     //   return;
+    }
+
+    if (frame_head_section.frame_head != 0x7EA58C91)
+    {
+        qDebug() << "帧头错误！";
+        return;
+    }
+
+    valid_data_array.resize(frame_head_section.frame_len);
+    valid_data_array = datagram.mid(8, frame_head_section.frame_len);
+
+    if (frame_head_section.frame_type == 0x0201)
+    {
+        qDebug() << "设备综合状态！";
+        qDebug() << "状态包计数:"<< valid_data[0]<<endl;
+        qDebug() << "通道锁定:" << valid_data[1] << endl;
+        qDebug() << "发射开关:" << valid_data[2] << endl;
+        qDebug() << "无效数据:" << valid_data[3] << endl;
+
+    }
+    else if (frame_head_section.frame_type == 0x0202)
+    {
+        qDebug() << "解调数据！";
+        qDebug() << "通道ID:" << valid_data[0] << endl;
+        qDebug() << "解调包序号:" << valid_data[1] << endl;
+
+      //  QByteArray rev_telemetry = valid_data_array;
+        analyze_telemetry_data(valid_data_array, frame_head_section.frame_len);
+    }
+    else if (frame_head_section.frame_type == 0xffff)
+    {
+        qDebug() << "UDP应答！";
+        quint16 data_pkg_ID;
+        quint8 ans_state;
+        data_pkg_ID = valid_data[0] + (valid_data[1] << 8);
+        ans_state = valid_data[2];
+        qDebug("%x %x", data_pkg_ID, ans_state);
+    }
+    else
+    {
+        qDebug() << "设备类型错误！";
     }
 }
 
@@ -8443,11 +8564,35 @@ void QtCommandtest::udp_send_data(quint8* total_data_to_send, quint16 total_data
     memcpy(data_to_send + 4, &smg_type, 2);
     memcpy(data_to_send + 6, &smg_len, 2);
     memset(data_to_send + 8, 0, 1);
-    memcpy(data_to_send + 9, &total_data_to_send, total_data_len);
+    memcpy(data_to_send + 9, total_data_to_send, total_data_len);
 
+    for (quint16 i = 0; i < 10;i++)
+    {
+   //     qDebug() << total_data_to_send[i];
+    }
     memcpy(data_to_send + 10 + total_data_len - 1, &smg_crc, 1);
 
-    sender1->writeDatagram((char*)data_to_send, total_data_len +10, QHostAddress("192.168.0.70"), 10086);
+    sender1->writeDatagram((char*)data_to_send, total_data_len +10, QHostAddress("192.168.2.228"), 10086);
+}
+
+quint8 QtCommandtest::check_sum1(quint8* a, int len)
+{
+    unsigned int sum = 0;
+
+    while (len > 1) {
+        sum += *a++;
+        len -= 1;
+    }
+
+    if (len) {
+        sum += *(unsigned char*)a;
+    }
+
+    while (sum >> 8) {
+        sum = (sum >> 8) + (sum & 0xff);
+    }
+
+    return (quint8)(~sum);
 }
 
 static qint8 send_data_to_station_switch = 0;
@@ -8469,7 +8614,7 @@ void QtCommandtest::tcp_rev_data_from_ctl_center()
     int i = 0;
     qint8 outChar = 0;
 
-    rev_telemetry = Q_NULLPTR;
+   // rev_telemetry = Q_NULLPTR;
 
     while (!out.atEnd())
     {        
@@ -8520,8 +8665,8 @@ void QtCommandtest::tcp_rev_data_from_ctl_center()
     else if (rev_data.length() == 256)
     {
         ui.plainTextEdit_reminder->appendPlainText("遥测数据");       
-        rev_telemetry = rev_data.toLatin1();
-        update_ReadServer_data();
+        QByteArray rev_telemetry = rev_data.toLatin1();
+        analyze_telemetry_data(rev_telemetry, rev_telemetry.length());
     }
     else
     {

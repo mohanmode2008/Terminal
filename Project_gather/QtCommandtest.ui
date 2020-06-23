@@ -288,8 +288,8 @@
   <widget class="QPushButton" name="btn_cmd_send">
    <property name="geometry">
     <rect>
-     <x>790</x>
-     <y>770</y>
+     <x>820</x>
+     <y>760</y>
      <width>91</width>
      <height>23</height>
     </rect>
@@ -301,7 +301,7 @@
   <widget class="QPushButton" name="btn_clr_cmd">
    <property name="geometry">
     <rect>
-     <x>960</x>
+     <x>940</x>
      <y>760</y>
      <width>75</width>
      <height>23</height>
@@ -350,8 +350,8 @@
   <widget class="QPushButton" name="btn_to_send_Identification">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>760</y>
+     <x>670</x>
+     <y>800</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -363,8 +363,8 @@
   <widget class="QPushButton" name="btn_to_bind_station">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>800</y>
+     <x>670</x>
+     <y>840</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -376,8 +376,8 @@
   <widget class="QPushButton" name="btn_to_server">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>770</y>
+     <x>570</x>
+     <y>840</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -394,6 +394,45 @@
      <width>191</width>
      <height>371</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>800</x>
+     <y>810</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>测试遥控</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_to_udp">
+   <property name="geometry">
+    <rect>
+     <x>810</x>
+     <y>840</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>连接udp</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>930</x>
+     <y>840</y>
+     <width>111</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>tcp连接到江哥</string>
    </property>
   </widget>
  </widget>
@@ -416,6 +455,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>QtCommandtest</receiver>
+   <slot>test_btn_to_connect_tcp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>846</x>
+     <y>767</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>811</x>
+     <y>782</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>QtCommandtest</receiver>
+   <slot>tcp_connect_ground_check_as_client()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1020</x>
+     <y>850</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1018</x>
+     <y>855</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>btn_first_clicked()</slot>
@@ -425,5 +496,7 @@
   <slot>tcp_connect_ctl_center_as_client()</slot>
   <slot>tcp_send_connect_data_to_ctl_center()</slot>
   <slot>tcp_send_identity_data_to_ctl_center()</slot>
+  <slot>test_btn_to_connect_tcp()</slot>
+  <slot>tcp_connect_ground_check_as_client()</slot>
  </slots>
 </ui>

@@ -157,12 +157,13 @@ public slots:
 	qint8 btn_to_send_cmd();
 
 	qint8 select_in_list_select();
-	qint8 update_ReadServer_data();	
+	//qint8 update_ReadServer_data();	
 	void select_in_list_list();
 	void select_in_list_frame();
 	void connected_success();
 
-	void btn_to_connect_tcp();
+	void test_btn_to_connect_tcp();
+	void test_tcp_connected_ground_detect_success();
 
 	void by_udp_connect_to_sky();
 
@@ -180,6 +181,9 @@ public slots:
 
 	void tcp_connect_server_as_client();
 	void tcp_connected_ctl_center_success();
+
+	void tcp_connect_ground_check_as_client();
+	void tcp_connected_ground_check_success();
 
 private:
 	Ui::QtCommandtest ui;
@@ -212,8 +216,14 @@ private:
 
 	QTcpSocket* tcp_to_ground_handle;
 
+	QTcpSocket* tcp_to_ground_check_handle;
+
 	quint8* UDP_send_data;
 	quint16 UDP_send_data_len;
+
+	quint8 check_sum1(quint8* a, int len);
+
+	qint8 analyze_telemetry_data(QByteArray, quint32);
 
 	/*-----------劭霞盾裂！！！！！！！！！！！！*/
 	quint32* UTC_time = NULL;
